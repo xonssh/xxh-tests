@@ -9,16 +9,8 @@ services:
       - .:/xxh-tests
 
   target_host:
-    image: linuxserver/openssh-server
+    image: rastasheep/ubuntu-sshd:18.04
     hostname: target_host
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - USER_NAME=snail
-      - USER_PASSWORD=pass
-      - PASSWORD_ACCESS=true
-      - SUDO_ACCESS=true
-      - PUBLIC_KEY_FILE=/xxh-tests/keys/id_rsa.pub
+    entrypoint: /bin/sh -c "cp /xxh-tests/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
     volumes:
       - .:/xxh-tests

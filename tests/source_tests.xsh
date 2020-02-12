@@ -10,7 +10,7 @@ print('Run xxh tests')
 
 check(
     'Connect to target_host using ssh',
-    $(ssh -o "StrictHostKeyChecking=accept-new" -o "LogLevel=QUIET" -i /xxh-tests/keys/id_rsa -p 2222 snail@target_host "echo TEST"),
+    $(ssh -o StrictHostKeyChecking=accept-new -o LogLevel=QUIET -i /xxh-tests/keys/id_rsa root@target_host "echo TEST"),
     'TEST'
 )
 
