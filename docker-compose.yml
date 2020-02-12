@@ -1,0 +1,24 @@
+version: "3"
+services:
+  source_host:
+    image: xonssh/xxh-tests
+    hostname: source_host
+    depends_on:
+      - target_host
+    volumes:
+      - .:/xxh-tests
+
+  target_host:
+    image: linuxserver/openssh-server
+    hostname: target_host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - USER_NAME=snail
+      - USER_PASSWORD=pass
+      - PASSWORD_ACCESS=true
+      - SUDO_ACCESS=true
+      - PUBLIC_KEY_FILE=/xxh-tests/keys/id_rsa.pub
+    volumes:
+      - .:/xxh-tests
