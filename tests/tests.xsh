@@ -8,10 +8,12 @@ def check(name, cmd_result, expected_result):
 
 print('Run xxh tests')
 
+ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
+
 check(
-    'Connect to target_host using ssh',
-    $(ssh -o StrictHostKeyChecking=accept-new -o LogLevel=QUIET -i /xxh-tests/keys/id_rsa root@target_host "echo TEST"),
-    'TEST'
+    'Connect to ahchto using ssh',
+    $(ssh @(ssh_opts) -i /xxh-tests/keys/id_rsa root@hoth "echo R2D2"),
+    'R2D2'
 )
 
 print('DONE')

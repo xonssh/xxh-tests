@@ -1,31 +1,38 @@
 version: "3"
 services:
-  source_host:
+  tatooine:
     image: xonssh/xxh-tests
-    hostname: source_host
+    hostname: tatooine
     depends_on:
-      - target_host
+      - hoth
+      - dagobah
     volumes:
       - .:/xxh-tests
 
-  # Ubuntu
-  target_host:
+  hoth:
     image: rastasheep/ubuntu-sshd:18.04
-    hostname: target_host
+    hostname: hoth
+    entrypoint: /bin/sh -c "cp /xxh-tests/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
+    volumes:
+      - .:/xxh-tests
+
+  dagobah:
+    image: rastasheep/ubuntu-sshd:18.04
+    hostname: dagobah
     entrypoint: /bin/sh -c "cp /xxh-tests/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
     volumes:
       - .:/xxh-tests
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
-#  target_host:
+#  bespin:
 #    image: linuxserver/openssh-server
-#    hostname: target_host
+#    hostname: bespin
 #    environment:
 #      - PUID=1000
 #      - PGID=1000
 #      - TZ=Europe/London
-#      - USER_NAME=snail
-#      - USER_PASSWORD=pass
+#      - USER_NAME=luke
+#      - USER_PASSWORD=skywalker
 #      - PASSWORD_ACCESS=true
 #      - SUDO_ACCESS=true
 #      - PUBLIC_KEY_FILE=/xxh-tests/keys/id_rsa.pub
