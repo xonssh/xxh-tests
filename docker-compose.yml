@@ -8,6 +8,7 @@ services:
       - dagobah
     volumes:
       - .:/xxh-tests
+    working_dir: /xxh-tests
 
   hoth:
     image: rastasheep/ubuntu-sshd:18.04

@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-RUN apt update && apt install -y openssh-client  rsync wget curl git python3-pip
+RUN apt update && apt install -y openssh-client rsync wget curl git python3-pip
 RUN pip3 install xonsh
-WORKDIR /xxh-tests
 ENTRYPOINT ["tail","-f", "/dev/null"]
