@@ -1,6 +1,9 @@
 #!/usr/bin/env xonsh
+import os
 
-git clone --depth 1 https://github.com/xonssh/xxh
+if not os.path.exists('xxh'):
+    git clone --depth 1 https://github.com/xonssh/xxh
+
 docker build . -t xonssh/xxh-tests
 docker-compose up -d
 

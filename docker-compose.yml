@@ -5,7 +5,6 @@ services:
     hostname: tatooine
     depends_on:
       - hoth
-      - dagobah
     volumes:
       - .:/xxh-tests
     working_dir: /xxh-tests
