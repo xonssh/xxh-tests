@@ -12,9 +12,7 @@ def check(name, cmd_result, expected_result):
     expected_result = expected_result.strip()
     if cmd_result != expected_result:
         raise Exception(f"{name} error: {repr(cmd_result)} != {repr(expected_result)}")
-    print(f'{name}... OK')
-
-print('Run xxh tests')
+    print(f'OK {name}')
 
 ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
 
@@ -29,5 +27,15 @@ check(
     $(xxh/xxh -i /xxh-tests/keys/id_rsa hoth +if +he /root/.xxh/settings.xsh),
     "{'XXH_VERSION': '%s', 'XXH_HOME': '/root/.xxh', 'PIP_TARGET': '/root/.xxh/pip', 'PYTHONPATH': ['/root/.xxh/pip']}" % xxh_version
 )
+
+if os.path.exists(os.path.abspath('~/.xxh/plugins/xxh-plugin-pipe-liner')):
+    git clone --quiet --depth 1 https://github.com/xonssh/xxh-plugin-pipe-liner ~/.xxh/plugins/xxh-plugin-pipe-liner
+
+check(
+    'Test xxh-plugin-pipe-liner',
+    $(xxh/xxh -i /xxh-tests/keys/id_rsa hoth +if +he /xxh-tests/tests/test_plugin_pipeliner.xsh),
+    "dog\nlive"
+)
+
 
 print('DONE')
