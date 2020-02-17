@@ -24,11 +24,11 @@ check(
 
 check(
     'Install xxh to Hoth',
-    $(xxh/xxh -i /xxh-tests/keys/id_rsa hoth +if +he /root/.xxh/settings.xsh),
-    "{'XXH_VERSION': '%s', 'XXH_HOME': '/root/.xxh', 'PIP_TARGET': '/root/.xxh/pip', 'PYTHONPATH': ['/root/.xxh/pip']}" % xxh_version
+    $(xxh/xxh -i /xxh-tests/keys/id_rsa hoth +if +he /root/.xxh/settings.py),
+    "{'XXH_VERSION': '%s', 'XXH_HOME': '/root/.xxh', 'PIP_TARGET': '/root/.xxh/pip', 'PYTHONPATH': '/root/.xxh/pip'}" % xxh_version
 )
 
-if os.path.exists(os.path.abspath('~/.xxh/plugins/xxh-plugin-pipe-liner')):
+if not os.path.exists(os.path.abspath('~/.xxh/plugins/xxh-plugin-pipe-liner')):
     git clone --quiet --depth 1 https://github.com/xonssh/xxh-plugin-pipe-liner ~/.xxh/plugins/xxh-plugin-pipe-liner
 
 check(
