@@ -1,32 +1,40 @@
 version: "3"
 services:
-  tatooine:
-    image: xonssh/xxh-tests
-    hostname: tatooine
+  start:
+    hostname: start
+    image: xonssh/xxh-dev-ubuntu
     depends_on:
-      - hoth
+      - ubuntu_without_fuse
+      - ubuntu_with_fuse
     volumes:
-      - .:/xxh-tests
-    working_dir: /xxh-tests
+      - .:/xxh-dev
+    working_dir: /xde
 
-  hoth:
+  ubuntu_without_fuse:
+    hostname: ubuntu_without_fuse
     image: rastasheep/ubuntu-sshd:18.04
-    hostname: hoth
-    entrypoint: /bin/sh -c "cp /xxh-tests/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
+    entrypoint: /bin/sh -c "cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
     volumes:
-      - .:/xxh-tests
+      - .:/xxh-dev
 
-#  dagobah:
-#    image: rastasheep/ubuntu-sshd:18.04
-#    hostname: dagobah
-#    entrypoint: /bin/sh -c "cp /xxh-tests/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
-#    volumes:
-#      - .:/xxh-tests
+  ubuntu_with_fuse:
+    hostname: ubuntu_with_fuse
+    image: rastasheep/ubuntu-sshd:18.04
+    entrypoint: /bin/sh -c "apt update && apt install -y fuse && cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
+    volumes:
+      - .:/xxh-dev
+    cap_add:
+      - SYS_ADMIN
+      - MKNOD
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
-#  bespin:
+#  alpine_without_fuse:
+#    hostname: alpine_without_fuse
 #    image: linuxserver/openssh-server
-#    hostname: bespin
 #    environment:
 #      - PUID=1000
 #      - PGID=1000
@@ -35,6 +43,6 @@ services:
 #      - USER_PASSWORD=skywalker
 #      - PASSWORD_ACCESS=true
 #      - SUDO_ACCESS=true
-#      - PUBLIC_KEY_FILE=/xxh-tests/keys/id_rsa.pub
+#      - PUBLIC_KEY_FILE=/xxh-dev/keys/id_rsa.pub
 #    volumes:
-#      - .:/xxh-tests
+#      - .:/xxh-dev
