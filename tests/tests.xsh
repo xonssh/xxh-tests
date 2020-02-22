@@ -31,7 +31,7 @@ for host in ['ubuntu_without_fuse', 'ubuntu_with_fuse']:
     print(f'\n[{host}]')
     server = 'root@' + host
     check(
-        f'Connect to {host} using ssh',
+        'Test connect using ssh',
         lambda:$(ssh @(ssh_opts) -i /xxh-dev/keys/id_rsa @(server) "echo Test!"),
         'Test!'
     )
@@ -40,6 +40,12 @@ for host in ['ubuntu_without_fuse', 'ubuntu_with_fuse']:
         'Test install xxh',
         lambda:$(xxh/xxh -i /xxh-dev/keys/id_rsa @(server) +if +he /root/.xxh/settings.py),
         "{'XXH_VERSION': '%s', 'XXH_HOME': '/root/.xxh', 'PIP_TARGET': '/root/.xxh/pip', 'PYTHONPATH': '/root/.xxh/pip'}" % xxh_version
+    )
+
+    check(
+        'Test AppImage extraction on the host',
+        lambda:$(ssh @(ssh_opts) -i /xxh-dev/keys/id_rsa @(server) "[ -d /root/.xxh/xonsh-squashfs ] && echo '1' ||echo '0'"),
+        '0' if 'with_fuse' in host else '1'
     )
 
     check(
