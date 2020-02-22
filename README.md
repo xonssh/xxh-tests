@@ -26,7 +26,7 @@ cd /xxh-dev/xxh
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. After end of work you can `./xde stop` or `./xde remove` the containers. You rock! 
-9. Tell us about your work - <a href="https://gitter.im/xonssh-xxh/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge" target="_blank"><img alt="Chat on Gitter" src="https://badges.gitter.im/xonssh-xxh/community.svg"></a>
+9. Tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Xxh development environment (XDE)
 
