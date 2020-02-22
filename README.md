@@ -1,5 +1,5 @@
 # xxh-tests
-Test environment for [xonssh/xxh](https://github.com/xonssh/xxh)
+Development and test environment for [xonssh/xxh](https://github.com/xonssh/xxh)
 
 0. Install `xonsh`, `docker` and `docker-compose`
 1. Create `./xxh` directory with xxh code. If you skip this step the directory will be created from [xonssh/xxh master](https://github.com/xonssh/xxh).
