@@ -38,12 +38,16 @@ usage: xde <command>
 
 xxh development environment (xde) commands:
 
-   build   Build the docker containers and get the xxh code if ./xxh is not exists
-   up      Docker-compose up the containers
-   test    Run tests
-   start   Docker-compose start the containers
-   stop    Docker-compose stop the containers
-   remove  Docker-compose remove the containers
+   build    Build the docker containers and get the xxh code if ./xxh is not exists
+   up       Docker-compose up the containers
+   test     Run tests
+   goto     Open bash on the container
+   start    Docker-compose start the containers
+   stop     Docker-compose stop the containers
+   remove   Docker-compose remove the containers
+   
+Try `./xde <command> --help` to get more info.   
+   
 
 positional arguments:
   command     Command to run
