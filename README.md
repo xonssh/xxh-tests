@@ -26,7 +26,7 @@ cd /xxh-dev/xxh
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. After end of work you can `./xde stop` or `./xde remove` the containers. You rock! 
-9. Tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+9. Try to find easter egg in the code and tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community)
 
 This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.13`, `pycharm 2019.3.3`.
 
