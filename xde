@@ -59,7 +59,7 @@ Try `./xde <command> --help` to get more info.
         args = parser.parse_args(sys.argv[2:])
 
         if args.container not in self.containers:
-            print('Unknown container name')
+            print(f"Container {args.container} not found among: {', '.join(self.containers)}")
             sys.exit(1)
 
         container_name = f'xxh-dev_{args.container}_1'
