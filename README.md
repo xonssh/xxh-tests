@@ -17,7 +17,7 @@ if you'll add a file to `tests/new.xsh` it appears on all hosts immediately in `
 3. Run `./xde up` to up the containers. Wait around 5 seconds after first start while containers init successfully. 
 4. Run `./xde test` to run tests. In case of first errors don't panic and try to run tests again because sometimes 
 the initialization takes time.
-5. Open `./` and `./xxh` directories in your IDE to make changes and commit.
+5. Open your IDE to make changes and commit. You can commit from `./` to `xonssh/xxh-dev` and from `./xxh` to `xonssh/xxh`.
 6. Now you can go to `start` host and try your first connect using xxh:
 ```
 docker exec -it xxh-dev_start_1 bash
@@ -28,7 +28,7 @@ cd /xxh-dev/xxh
 8. After end of work you can `./xde stop` or `./xde remove` the containers. You rock! 
 9. Tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.13`.
+This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.13`, `pycharm 2019.3.3`.
 
 ## xxh development environment tool
 

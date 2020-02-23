@@ -2,3 +2,6 @@ xonsh
 docker-compose
 argparse
 yaml
+setuptools
+wheel
+twine

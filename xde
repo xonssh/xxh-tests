@@ -65,5 +65,18 @@ Try `./xde <command> --help` to get more info.
         container_name = f'xxh-dev_{args.container}_1'
         docker exec -it @(container_name) bash
 
+    def release(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('-rm', '--remove', action='store_true', help=f"Remove build dirs")
+        parser.usage = parser.format_usage().replace('xde ', 'xde release ')
+        args = parser.parse_args(sys.argv[2:])
+
+        cd ./xxh && python3 setup.py sdist bdist_wheel && twine upload dist/*
+
+        if args.remove:
+            print('Remove build dirs')
+            rm -rf ./build ./dist ./xonssh_xxh.egg-info
+
+
 if __name__ == '__main__':
     XxhDevEnv()
