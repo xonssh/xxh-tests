@@ -20,7 +20,7 @@ the initialization takes time.
 5. Open your IDE to make changes and commit. You can commit from `./` to `xonssh/xxh-dev` and from `./xxh` to `xonssh/xxh`.
 6. Now you can go to `start` host and try your first connect using xxh:
 ```
-docker exec -it xxh-dev_start_1 bash
+./xde goto start
 cd /xxh-dev/xxh
 ./xxh -i /xxh-dev/keys/id_rsa root@ubuntu_without_fuse
 ```
