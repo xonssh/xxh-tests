@@ -1,19 +1,25 @@
 #!/usr/bin/env xonsh
-import os, sys, argparse
+import os, sys, argparse, yaml
 
 class XxhDevEnv(object):
     def __init__(self):
+        with open('docker-compose.yml') as docker_compose:
+            self.containers = yaml.load(docker_compose, Loader=yaml.FullLoader)['services'].keys()
         parser = argparse.ArgumentParser(
             usage='''xde <command>
 
 xxh development environment (xde) commands:
 
-   build   Build the docker containers and get the xxh code if ./xxh is not exists
-   up      Docker-compose up the containers
-   test    Run tests
-   start   Docker-compose start the containers
-   stop    Docker-compose stop the containers
-   remove  Docker-compose remove the containers
+   build    Build the docker containers and get the xxh code if ./xxh is not exists
+   up       Docker-compose up the containers
+   test     Run tests
+   goto     Open bash on the container
+   start    Docker-compose start the containers
+   stop     Docker-compose stop the containers
+   remove   Docker-compose remove the containers
+   
+Try `./xde <command> --help` to get more info.   
+   
 ''')
         parser.add_argument('command', help='Command to run')
 
@@ -48,6 +54,19 @@ xxh development environment (xde) commands:
 
     def test(self):
         docker exec xxh-dev_start_1 xonsh /xxh-dev/tests/tests.xsh
+
+    def goto(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('container', help=f"Container name: {', '.join(self.containers)}")
+        parser.usage = parser.format_usage().replace('xde ', 'xde goto ')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.container not in self.containers:
+            print('Unknown container name')
+            sys.exit(1)
+
+        container_name = f'xxh-dev_{args.container}_1'
+        docker exec -it @(container_name) bash
 
 if __name__ == '__main__':
     XxhDevEnv()
