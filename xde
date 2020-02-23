@@ -32,7 +32,7 @@ Try `./xde <command> --help` to get more info.
         getattr(self, args.command)()
 
     def build(self):
-        if not os.path.exists('xxh'):
+        if not p'xxh'.exists():
             git clone --depth 1 https://github.com/xonssh/xxh
 
         docker build . -t xonssh/xxh-dev-ubuntu
