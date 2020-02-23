@@ -32,9 +32,6 @@ Try `./xde <command> --help` to get more info.
         getattr(self, args.command)()
 
     def build(self):
-        # parser = argparse.ArgumentParser(description='')
-        # parser.add_argument('--add', action='store_true')
-        # args = parser.parse_args(sys.argv[2:])
         if not os.path.exists('xxh'):
             git clone --depth 1 https://github.com/xonssh/xxh
 
