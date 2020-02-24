@@ -8,7 +8,7 @@ services:
       - ubuntu_with_fuse
     volumes:
       - .:/xxh-dev
-    working_dir: /xde
+    working_dir: /xxh-dev
 
   ubuntu_without_fuse:
     hostname: ubuntu_without_fuse
