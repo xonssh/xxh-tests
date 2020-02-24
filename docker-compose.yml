@@ -6,6 +6,7 @@ services:
     depends_on:
       - ubuntu_without_fuse
       - ubuntu_with_fuse
+      - arch_without_fuse
     volumes:
       - .:/xxh-dev
     working_dir: /xxh-dev
@@ -31,14 +32,11 @@ services:
     security_opt:
       - apparmor:unconfined
 
-#  arch_without_fuse:
-#    hostname: arch_without_fuse
-#    image: yantis/archlinux-small-ssh-hpn  # https://github.com/yantis/docker-archlinux-ssh-hpn
-##    # If keys not set user/pass are docker/docker
-##    volume:
-##      - /xxh-dev/keys/id_rsa.pub:/authorized_keys:ro
-##    ports:
-##      - 2223:22
+  arch_without_fuse:
+    hostname: arch_without_fuse
+    image: yantis/archlinux-small-ssh-hpn  # https://github.com/yantis/docker-archlinux-ssh-hpn
+    volumes:
+      - .:/xxh-dev
 
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
