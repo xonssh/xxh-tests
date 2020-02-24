@@ -3,9 +3,10 @@ network of docker containers which allow to test the ssh connections and xxh fun
 with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE). 
 
 There are three containers in the network with names/hostnames:
-* `start` host has xonsh installed from pip and other tools
-* `ubuntu_without_fuse` host has ssh server without FUSE and AppImage should be extracted before using
-* `ubuntu_with_fuse` host has ssh server and FUSE for running AppImage without extracting
+* `start` - Ubuntu host has xonsh installed from pip and other tools
+* `ubuntu_without_fuse` - Ubuntu host has ssh server without FUSE and AppImage should be extracted before using
+* `ubuntu_with_fuse` - Ubuntu host has ssh server and FUSE for running AppImage without extracting
+* `arch_without_fuse` - Arch Linux host has ssh server, without FUSE and auth with password only
 
 Every container has `/xxh-dev` it is the volume that contains files in this directory. For example 
 if you'll add a file to `tests/new.xsh` it appears on all hosts immediately in `/xxh-dev/tests/new.xsh`.
