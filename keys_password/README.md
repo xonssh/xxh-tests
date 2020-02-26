@@ -1,4 +1,4 @@
-Keys without password.
+Keys with password. Password: `snail`
 
 Regenerate keys:
 ```
