@@ -50,7 +50,7 @@ Try `./xde <command> --help` to get more info.
         docker-compose rm -f -s
 
     def test(self):
-        docker exec xxh-dev_start_1 xonsh /xxh-dev/tests/tests.xsh
+        docker exec xxh-dev_start_1 xonsh /xxh-dev/tests/tests.xsh @(sys.argv[2:])
 
     def goto(self):
         parser = argparse.ArgumentParser(description='')
