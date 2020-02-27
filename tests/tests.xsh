@@ -14,6 +14,7 @@ def cmd_str(c):
 
 def check(name, cmd, expected_result):
     print('TEST: '+name, end='...')
+    cmd = cmd.strip()
     cmd_result = $(bash -c @(cmd)).strip()
 
     if '\x07' in cmd_result:
@@ -21,15 +22,20 @@ def check(name, cmd, expected_result):
 
     expected_result = expected_result.strip()
     if cmd_result != expected_result or vverbose:
+        print('\n',end='')
         if verbose:
-            print(f'\nCMD: {cmd.strip()}')
+            print(f'CMD: {cmd}')
         print(f"OUTPUT {repr(cmd_result)}\nEXPECT {repr(expected_result)} ")
 
         if cmd_result != expected_result:
-            print('ERROR')
+            print('ERROR!')
+            yn = input(f'Run again verbose? [Y/n]: {cmd} +v')
+            if yn.lower().strip() in ['y','']:
+                cmdv = cmd + ' +v'
+                bash -c @(cmdv)
             sys.exit(1)
 
-    print('OK')
+    print('DONE')
 
 if __name__ == '__main__':
 
