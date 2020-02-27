@@ -4,22 +4,22 @@ services:
     hostname: start
     image: xonssh/xxh-dev-ubuntu
     depends_on:
-      - ubuntu_without_fuse
-      - ubuntu_with_fuse
-      - arch_without_fuse
+      - ubuntu_k
+      - ubuntu_kf
+      - arch_p
     volumes:
       - .:/xxh-dev
     working_dir: /xxh-dev
 
-  ubuntu_without_fuse:
-    hostname: ubuntu_without_fuse
+  ubuntu_k:
+    hostname: ubuntu_k
     image: rastasheep/ubuntu-sshd:18.04  # https://github.com/rastasheep/ubuntu-sshd
     entrypoint: /bin/sh -c "cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
     volumes:
       - .:/xxh-dev
 
-  ubuntu_with_fuse:
-    hostname: ubuntu_with_fuse
+  ubuntu_kf:
+    hostname: ubuntu_kf
     image: rastasheep/ubuntu-sshd:18.04  # https://github.com/rastasheep/ubuntu-sshd
     entrypoint: /bin/sh -c "apt update && apt install -y fuse && cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
     volumes:
@@ -32,15 +32,15 @@ services:
     security_opt:
       - apparmor:unconfined
 
-  arch_without_fuse:
-    hostname: arch_without_fuse
+  arch_p:
+    hostname: arch_p
     image: yantis/archlinux-small-ssh-hpn  # https://github.com/yantis/docker-archlinux-ssh-hpn
     volumes:
       - .:/xxh-dev
 
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
-#  alpine_without_fuse:
+#  alpine_p:
 #    hostname: alpine_without_fuse
 #    image: linuxserver/openssh-server
 #    environment:

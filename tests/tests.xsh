@@ -29,13 +29,13 @@ def check(name, cmd, expected_result):
 
         if cmd_result != expected_result:
             print('ERROR!')
-            yn = input(f'Run again verbose? [Y/n]: {cmd} +v')
+            cmdv = cmd.replace('xxh ', 'xxh +v')
+            yn = input(f'Run again verbose? [Y/n]: %s' % cmdv)
             if yn.lower().strip() in ['y','']:
-                cmdv = cmd + ' +v'
                 bash -c @(cmdv)
             sys.exit(1)
 
-    print('DONE')
+    print('OK')
 
 if __name__ == '__main__':
 
@@ -53,15 +53,15 @@ if __name__ == '__main__':
         opt.hosts = opt.hosts.split(',')
 
     hosts = {}
-    hosts['ubuntu_without_fuse'] = {
+    hosts['ubuntu_k'] = {
         'user':'root',
         'home':'/root',
         'ssh_auth': ['-i', '/xxh-dev/keys/id_rsa'],
         'xxh_auth': ['-i', '/xxh-dev/keys/id_rsa'],
         'sshpass': []
     }
-    hosts['ubuntu_with_fuse'] = hosts['ubuntu_without_fuse']
-    hosts['arch_without_fuse'] = {
+    hosts['ubuntu_kf'] = hosts['ubuntu_k']
+    hosts['arch_p'] = {
         'user':'docker',
         'home':'/home/docker',
         'ssh_auth':[],
@@ -95,8 +95,8 @@ if __name__ == '__main__':
 
         check(
             'Test AppImage extraction on the host',
-            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xonsh-squashfs ] && echo '1' ||echo '0'") ),
-            '0' if 'with_fuse' in host else '1'
+            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+            'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
         )
 
         check(
