@@ -2,11 +2,14 @@ Development and test environment for [xonssh/xxh](https://github.com/xonssh/xxh)
 network of docker containers which allow to test the ssh connections and xxh functionality 
 with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE). 
 
-There are three containers in the network with names/hostnames:
-* `start` - Ubuntu host has xonsh installed from pip and other tools
-* `ubuntu_without_fuse` - Ubuntu host has ssh server without FUSE and AppImage should be extracted before using
-* `ubuntu_with_fuse` - Ubuntu host has ssh server and FUSE for running AppImage without extracting
-* `arch_without_fuse` - Arch Linux host has ssh server, without FUSE and auth with password only
+Docker containers in the network:
+
+| Name/Host | Auth                                          | FUSE |
+|-----------|-----------------------------------------------|------|
+| start     | `./xde goto start`                            |      |
+| ubuntu_k  | `start$ ssh -i keys/id_rsa root@ubuntu_k`     |      |
+| ubuntu_kf | `start$ ssh -i keys/id_rsa root@ubuntu_kf`    | yes  |
+| arch_p    | `start$ sshpass -p docker ssh docker@arch_p`  |      |
 
 Every container has `/xxh-dev` it is the volume that contains files in this directory. For example 
 if you'll add a file to `tests/new.xsh` it appears on all hosts immediately in `/xxh-dev/tests/new.xsh`.
@@ -23,7 +26,7 @@ the initialization takes time.
 ```
 ./xde goto start
 cd /xxh-dev/xxh
-./xxh -i /xxh-dev/keys/id_rsa root@ubuntu_without_fuse
+./xxh -i /xxh-dev/keys/id_rsa root@ubuntu_k
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. After end of work you can `./xde stop` or `./xde remove` the containers. You rock! 
