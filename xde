@@ -10,13 +10,13 @@ class XxhDevEnv(object):
 
 xxh development environment commands:
 
-   build    Build the docker containers and get the xxh code if ./xxh is not exists
-   up       Docker-compose up the containers
-   test     Run tests
-   goto     Open bash on the container
-   start    Docker-compose start the containers
-   stop     Docker-compose stop the containers
-   remove   Docker-compose remove the containers
+   build       Build the docker containers and get the xxh code if ./xxh is not exists
+   up          Docker-compose up the containers
+   test    t   Run tests
+   goto    g   Open bash on the container
+   start       Docker-compose start the containers
+   stop        Docker-compose stop the containers
+   remove      Docker-compose remove the containers
    
 Try `./xde <command> --help` to get more info.   
    
@@ -49,17 +49,31 @@ Try `./xde <command> --help` to get more info.
     def remove(self):
         docker-compose rm -f -s
 
+    def t(self):
+        return self.test()
+
     def test(self):
         docker exec -it xxh-dev_start_1 xonsh /xxh-dev/tests/tests.xsh @(sys.argv[2:])
+
+    def g(self):
+        return self.goto()
 
     def goto(self):
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('container', help=f"Container name: {', '.join(self.containers)}")
-        parser.usage = parser.format_usage().replace('xde ', 'xde goto ')
+        parser.usage = parser.format_usage().replace('usage: xde ', 'xde goto ')
         args = parser.parse_args(sys.argv[2:])
 
-        if args.container not in self.containers:
+        match_containers = [c for c in self.containers if args.container in c]
+        matched_cnt = len(match_containers)
+
+        if matched_cnt == 0:
             print(f"Container {args.container} not found among: {', '.join(self.containers)}")
+            sys.exit(1)
+        elif matched_cnt == 1:
+            args.container = match_containers[0]
+        else:
+            print(f"Container '{args.container}' found many times: {', '.join(match_containers)}")
             sys.exit(1)
 
         container_name = f'xxh-dev_{args.container}_1'
