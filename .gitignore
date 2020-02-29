@@ -1,4 +1,6 @@
 xxh
+squashfs-root
+appimage
 *.pyc
 *.out
 *.xcf
