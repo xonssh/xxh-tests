@@ -6,7 +6,7 @@ cd /result
 ./xonsh-x86_64.AppImage
 ```
 
-### Build on manylinux2010 Docker image (PEP 571)
+### [Recomended] Build on manylinux2010 docker image (PEP 571)
 
 [niess/linuxdeploy-plugin-python](https://github.com/niess/linuxdeploy-plugin-python) repo has builds on manylinux: 
 
