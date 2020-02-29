@@ -1,6 +1,6 @@
 #!/usr/bin/env xonsh
 
-import sys, os, argparse
+import sys, os, argparse, re
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')  )
 from xxh.xonssh_xxh.settings import global_settings
@@ -16,9 +16,8 @@ def check(name, cmd, expected_result):
     print('TEST: '+name, end='...')
     cmd = cmd.strip()
     cmd_result = $(bash -c @(cmd)).strip()
-
-    if '\x07' in cmd_result:
-        cmd_result = cmd_result.split('\x07')[1]
+    cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
+    cmd_result = re.sub('\\x1b\[\d+m','', cmd_result)
 
     expected_result = expected_result.strip()
     if cmd_result != expected_result or vverbose:
@@ -29,7 +28,7 @@ def check(name, cmd, expected_result):
 
         if cmd_result != expected_result:
             print('ERROR!')
-            cmdv = cmd.replace('xxh ', 'xxh +v')
+            cmdv = cmd.replace('xxh ', 'xxh +v ')
             yn = input(f'Run again verbose? [Y/n]: %s' % cmdv)
             if yn.lower().strip() in ['y','']:
                 bash -c @(cmdv)
@@ -119,6 +118,14 @@ if __name__ == '__main__':
             'Test pip package import',
             $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_package_import.xsh),
             "[[1], [2], [3]]"
+        )
+
+        # Xontribs
+
+        check(
+            'Test xontrib autojump',
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib_autojump.xsh),
+            "autojump  installed      loaded"
         )
 
         # Plugins
