@@ -4,7 +4,7 @@ import os, sys, argparse, yaml
 class XxhDevEnv(object):
     def __init__(self):
         with open('docker-compose.yml') as docker_compose:
-            self.containers = yaml.load(docker_compose, Loader=yaml.FullLoader)['services'].keys()
+            self.containers = sorted(yaml.load(docker_compose, Loader=yaml.FullLoader)['services'].keys())
         parser = argparse.ArgumentParser(
             usage='''xde <command>
 
@@ -69,7 +69,7 @@ Try `./xde <command> --help` to get more info.
         if matched_cnt == 0:
             print(f"Container {args.container} not found among: {', '.join(self.containers)}")
             sys.exit(1)
-        elif matched_cnt == 1:
+        elif matched_cnt == 1 or match_containers[0] == args.container:
             args.container = match_containers[0]
         else:
             print(f"Container '{args.container}' found many times: {', '.join(match_containers)}")
