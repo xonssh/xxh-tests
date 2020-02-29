@@ -37,25 +37,25 @@ This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `doc
 ## xxh development environment tool
 
 ```
-$ ./xde --help                                                                                                    
+$ ./xde -h                                                                                                                                                                                              
 usage: xde <command>
 
-xxh development environment (xde) commands:
+xxh development environment commands:
 
-   build    Build the docker containers and get the xxh code if ./xxh is not exists
-   up       Docker-compose up the containers
-   test     Run tests
-   goto     Open bash on the container
-   start    Docker-compose start the containers
-   stop     Docker-compose stop the containers
-   remove   Docker-compose remove the containers
+   build       Build the docker containers and get the xxh code if ./xxh is not exists
+   up          Docker-compose up the containers
+   test    t   Run tests
+   goto    g   Open bash by the container name part
+   start       Docker-compose start the containers
+   stop        Docker-compose stop the containers
+   remove      Docker-compose remove the containers
    
 Try `./xde <command> --help` to get more info.   
    
-
 positional arguments:
   command     Command to run
 
 optional arguments:
   -h, --help  show this help message and exit
+
 ```

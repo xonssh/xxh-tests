@@ -13,13 +13,12 @@ xxh development environment commands:
    build       Build the docker containers and get the xxh code if ./xxh is not exists
    up          Docker-compose up the containers
    test    t   Run tests
-   goto    g   Open bash on the container
+   goto    g   Open bash by the container name part
    start       Docker-compose start the containers
    stop        Docker-compose stop the containers
    remove      Docker-compose remove the containers
    
-Try `./xde <command> --help` to get more info.   
-   
+Try `./xde <command> --help` to get more info.
 ''')
         parser.add_argument('command', help='Command to run')
 
