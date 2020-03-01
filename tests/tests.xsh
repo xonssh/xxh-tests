@@ -17,7 +17,7 @@ def check(name, cmd, expected_result):
     cmd = cmd.strip()
     cmd_result = $(bash -c @(cmd)).strip()
     cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
-    cmd_result = re.sub('\\x1b\[\d+m','', cmd_result)
+    cmd_result = re.sub(r'\x1b\[\d+m','', cmd_result)
 
     expected_result = expected_result.strip()
     if cmd_result != expected_result or vverbose:
@@ -124,8 +124,8 @@ if __name__ == '__main__':
 
         check(
             'Test xontrib autojump',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib_autojump.xsh),
-            "autojump  installed      loaded"
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib.xsh),
+            "autojump  installed      loaded\nschedule  installed      loaded"
         )
 
         # Plugins
