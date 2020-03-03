@@ -68,6 +68,11 @@ if __name__ == '__main__':
         'sshpass': ['sshpass', '-p', 'docker']
     }
 
+    # TODO:
+    rm -rf /root/.xxh/shells/xxh-shell-xonsh-appimage
+    cp -r /xxh-dev/xxh/xxh-shell-xonsh-appimage /root/.xxh/shells/
+    xonsh /root/.xxh/shells/xxh-shell-xonsh-appimage/build.xsh
+
     rm -rf ~/.ssh/known_hosts
 
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
