@@ -29,7 +29,7 @@ def check(name, cmd, expected_result):
         if cmd_result != expected_result:
             print('ERROR!')
             cmdv = cmd.replace('xxh ', 'xxh +v ')
-            yn = input(f'Run again verbose? [Y/n]: %s' % cmdv)
+            yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
             if yn.lower().strip() in ['y','']:
                 bash -c @(cmdv)
             sys.exit(1)
