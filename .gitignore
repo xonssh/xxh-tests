@@ -1,6 +1,8 @@
 xxh
 squashfs-root
 appimage
+xxh-shell*
+xxh-plugin*
 *.pyc
 *.out
 *.xcf

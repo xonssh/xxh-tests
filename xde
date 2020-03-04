@@ -34,6 +34,9 @@ Try `./xde <command> --help` to get more info.
         if not p'xxh'.exists():
             git clone --depth 1 https://github.com/xonssh/xxh
 
+        if not p'xxh-shell-xonsh-appimage'.exists():
+            git clone --depth 1 https://github.com/xxh/xxh-shell-xonsh-appimage
+
         docker build . -t xonssh/xxh-dev-ubuntu
 
     def up(self):
