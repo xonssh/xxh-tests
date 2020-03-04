@@ -70,6 +70,13 @@ if __name__ == '__main__':
 
     rm -rf /root/.xxh /root/.ssh/known_hosts
 
+    xxh_args = []
+
+    shell_source_dir = p'/xxh-dev/xxh-shell-xonsh-appimage'
+    if shell_source_dir.exists():
+        print(f'Shell source is {shell_source_dir}')
+        xxh_args += ['+ss', str(shell_source_dir)]
+
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
     for host, h in hosts.items():
         if opt.hosts and host not in opt.hosts:
@@ -88,7 +95,7 @@ if __name__ == '__main__':
 
         check(
             'Test install xxh',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he @(f"{host_home}/.xxh/settings.py") ),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he @(f"{host_home}/.xxh/settings.py") @(xxh_args) ),
             "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
         )
 
@@ -100,23 +107,23 @@ if __name__ == '__main__':
 
         check(
             'Test python',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_python.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_python.xsh @(xxh_args) ),
             "Python 3.8"
         )
 
         check(
             'Test pip upgrade',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_upgrade.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_upgrade.xsh @(xxh_args)),
             ""
         )
         check(
             'Test pip package install',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_package_install.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_package_install.xsh @(xxh_args)),
             ""
         )
         check(
             'Test pip package import',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_package_import.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +he /xxh-dev/tests/test_pip_package_import.xsh @(xxh_args)),
             "[[1], [2], [3]]"
         )
 
@@ -124,7 +131,7 @@ if __name__ == '__main__':
 
         check(
             'Test xontrib autojump',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
             "autojump  installed      loaded\nschedule  installed      loaded"
         )
 
@@ -135,7 +142,7 @@ if __name__ == '__main__':
 
         check(
             'Test xxh-plugin-pipe-liner',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_plugin_pipeliner.xsh),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_plugin_pipeliner.xsh @(xxh_args)),
             "1234\n5678"
         )
 
