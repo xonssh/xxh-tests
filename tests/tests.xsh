@@ -88,6 +88,12 @@ if __name__ == '__main__':
         host_home = h['home']
 
         check(
+            f'Remove {server}:~/.xxh',
+            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "rm -rf ~/.xxh"),
+            ''
+        )
+
+        check(
             'Test connect using ssh',
             $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "echo Test!"),
             'Test!'
