@@ -1,4 +1,4 @@
-Development and test environment for [xonssh/xxh](https://github.com/xonssh/xxh) contains 
+Development and test environment for [xxh/xxh](https://github.com/xxh/xxh) contains 
 network of docker containers which allow to test the ssh connections and xxh functionality 
 with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE). 
 
@@ -17,11 +17,11 @@ if you'll add a file to `tests/new.xsh` it appears on all hosts immediately in `
 ## Workflow
 
 1. Install `xonsh`, `docker` and `docker-compose` on your dev system
-2. Run `./xde build` to git clone the [xonssh/xxh](https://github.com/xonssh/xxh) master and build the docker containers. 
+2. Run `./xde build` to git clone the [xxh/xxh](https://github.com/xxh/xxh) master and build the docker containers. 
 3. Run `./xde up` to up the containers. Wait around 5 seconds after first start while containers init successfully. 
 4. Run `./xde test` to run tests. In case of first errors don't panic and try to run tests again because sometimes 
 the initialization takes time.
-5. Open your IDE to make changes and commit. You can commit from `./` to `xonssh/xxh-dev` and from `./xxh` to `xonssh/xxh`.
+5. Open your IDE to make changes and commit. You can commit from `./` to `xxh/xxh-dev` and from `./xxh` to `xxh/xxh`.
 6. Now you can go to `start` host and try your first connect using xxh:
 ```
 ./xde goto start
