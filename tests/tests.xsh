@@ -136,7 +136,7 @@ if __name__ == '__main__':
         # Xontribs
 
         check(
-            'Test xontrib autojump',
+            'Test xontrib',
             $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
             "autojump  installed      loaded\nschedule  installed      loaded"
         )
