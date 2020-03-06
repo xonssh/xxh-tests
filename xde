@@ -83,7 +83,7 @@ Try `./xde <command> --help` to get more info.
 
     def release(self):
         parser = argparse.ArgumentParser(description='')
-        parser.add_argument('-rm', '--remove', action='store_true', help=f"Remove build dirs")
+        parser.add_argument('-r', '--remove', action='store_true', help=f"Remove build dirs after release")
         parser.usage = parser.format_usage().replace('xde ', 'xde release ')
         args = parser.parse_args(sys.argv[2:])
 
