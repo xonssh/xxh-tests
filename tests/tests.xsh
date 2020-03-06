@@ -143,11 +143,11 @@ if __name__ == '__main__':
 
         # Plugins
 
-        if not p'/root/.xxh/plugins/xxh-plugin-pipe-liner'.exists():
-            git clone --quiet --depth 1 https://github.com/xonssh/xxh-plugin-pipe-liner /root/.xxh/plugins/xxh-plugin-pipe-liner
+        if not p'/root/.xxh/plugins/xxh-plugin-xonsh-pipe-liner'.exists():
+            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-pipe-liner /root/.xxh/plugins/xxh-plugin-xonsh-pipe-liner
 
         check(
-            'Test xxh-plugin-pipe-liner',
+            'Test xxh-plugin-xonsh-pipe-liner',
             $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_plugin_pipeliner.xsh @(xxh_args)),
             "1234\n5678"
         )
