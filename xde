@@ -32,10 +32,10 @@ Try `./xde <command> --help` to get more info.
 
     def build(self):
         if not p'xxh'.exists():
-            git clone --depth 1 https://github.com/xonssh/xxh
+            git clone https://github.com/xonssh/xxh
 
         if not p'xxh-shell-xonsh-appimage'.exists():
-            git clone --depth 1 https://github.com/xxh/xxh-shell-xonsh-appimage
+            git clone https://github.com/xxh/xxh-shell-xonsh-appimage
 
         docker build . -f xxh-dev-start.Dockerfile -t xxh/xxh-dev-start
         docker build . -f xxh-dev-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k
