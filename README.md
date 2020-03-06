@@ -4,12 +4,12 @@ with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUS
 
 Docker containers in the network:
 
-| Name/Host | Auth                                          | FUSE |
-|-----------|-----------------------------------------------|------|
-| start     | `./xde goto start`                            |      |
-| ubuntu_k  | `start$ ssh -i keys/id_rsa root@ubuntu_k`     |      |
-| ubuntu_kf | `start$ ssh -i keys/id_rsa root@ubuntu_kf`    | yes  |
-| arch_p    | `start$ sshpass -p docker ssh docker@arch_p`  |      |
+| Name/Host | Auth                                          | FUSE | rsync |
+|-----------|-----------------------------------------------|------|-------|
+| start     | `./xde goto start`                            |      |       |
+| ubuntu_k  | `start$ ssh -i keys/id_rsa root@ubuntu_k`     |      |       |
+| ubuntu_kf | `start$ ssh -i keys/id_rsa root@ubuntu_kf`    | yes  |  yes  |
+| arch_p    | `start$ sshpass -p docker ssh docker@arch_p`  |      |       |
 
 Every container has `/xxh-dev` it is the volume that contains files in this directory. For example 
 if you'll add a file to `tests/new.xsh` it appears on all hosts immediately in `/xxh-dev/tests/new.xsh`.

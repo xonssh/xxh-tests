@@ -2,7 +2,7 @@ version: "3"
 services:
   start:
     hostname: start
-    image: xonssh/xxh-dev-ubuntu
+    image: xxh/xxh-dev-start
     depends_on:
       - ubuntu_k
       - ubuntu_kf
@@ -13,15 +13,13 @@ services:
 
   ubuntu_k:
     hostname: ubuntu_k
-    image: rastasheep/ubuntu-sshd:18.04  # https://github.com/rastasheep/ubuntu-sshd
-    entrypoint: /bin/sh -c "cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
+    image: xxh/xxh-dev-ubuntu-k
     volumes:
       - .:/xxh-dev
 
   ubuntu_kf:
     hostname: ubuntu_kf
-    image: rastasheep/ubuntu-sshd:18.04  # https://github.com/rastasheep/ubuntu-sshd
-    entrypoint: /bin/sh -c "apt update && apt install -y fuse && cp /xxh-dev/keys/id_rsa.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys && chmod 0600 /root/.ssh/authorized_keys && /usr/sbin/sshd -D"
+    image: xxh/xxh-dev-ubuntu-kf
     volumes:
       - .:/xxh-dev
     cap_add:

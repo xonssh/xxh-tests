@@ -37,7 +37,9 @@ Try `./xde <command> --help` to get more info.
         if not p'xxh-shell-xonsh-appimage'.exists():
             git clone --depth 1 https://github.com/xxh/xxh-shell-xonsh-appimage
 
-        docker build . -t xonssh/xxh-dev-ubuntu
+        docker build . -f c-start.Dockerfile -t xxh/xxh-dev-start
+        docker build . -f c-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k
+        docker build . -f c-ubuntu-kf.Dockerfile -t xxh/xxh-dev-ubuntu-kf
 
     def up(self):
         docker-compose up -d
@@ -49,7 +51,14 @@ Try `./xde <command> --help` to get more info.
         docker-compose stop
 
     def remove(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('-f', '--full', action='store_true', help=f"Full remove: containers, images")
+        parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
+        args = parser.parse_args(sys.argv[2:])
+
         docker-compose rm -f -s
+        if args.full:
+            docker image rm xxh/xxh-dev-start xxh/xxh-dev-ubuntu-k xxh/xxh-dev-ubuntu-kf
 
     def t(self):
         return self.test()
