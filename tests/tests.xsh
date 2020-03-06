@@ -76,7 +76,7 @@ if __name__ == '__main__':
         print('Remove xxh home')
         rm -rf /root/.xxh
 
-    if not p'/root/.xxh/shells'.exists():
+    if not p'/root/.xxh/xxh/shells'.exists():
         print('First time of executing tests takes time because of downloading files. Take a gulp of water or a few :)')
 
     xxh_args = []
@@ -109,13 +109,13 @@ if __name__ == '__main__':
 
         check(
             'Test install xxh',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he @(f"{host_home}/.xxh/settings.py") @(xxh_args) ),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +iff +he @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
             "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
         )
 
         check(
             'Test AppImage extraction on the host',
-            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
             'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
         )
 
@@ -145,23 +145,23 @@ if __name__ == '__main__':
 
         check(
             'Test xontrib',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +iff +he /xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
             "autojump  installed      loaded\nschedule  installed      loaded"
         )
 
         # Plugins
 
-        if not p'/root/.xxh/plugins/xxh-plugin-xonsh-pipe-liner'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-pipe-liner /root/.xxh/plugins/xxh-plugin-xonsh-pipe-liner
-        if not p'/root/.xxh/plugins/xxh-plugin-xonsh-theme-bar'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-theme-bar  /root/.xxh/plugins/xxh-plugin-xonsh-theme-bar
-        if not p'/root/.xxh/plugins/xxh-plugin-xonsh-autojump'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-autojump  /root/.xxh/plugins/xxh-plugin-xonsh-autojump
-            /root/.xxh/plugins/xxh-plugin-xonsh-autojump/build.xsh 1> /dev/null 2> /dev/null
+        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-pipe-liner'.exists():
+            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-pipe-liner /root/.xxh/xxh/plugins/xxh-plugin-xonsh-pipe-liner
+        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-theme-bar'.exists():
+            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-theme-bar  /root/.xxh/xxh/plugins/xxh-plugin-xonsh-theme-bar
+        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump'.exists():
+            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-autojump  /root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump
+            /root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump/build.xsh 1> /dev/null 2> /dev/null
 
         check(
             'Test xxh plugins',
-            $(echo xxh/xxh @(h['xxh_auth']) @(server) +if +he /xxh-dev/tests/test_plugins.xsh @(xxh_args)),
+            $(echo xxh/xxh @(h['xxh_auth']) @(server) +iff +he /xxh-dev/tests/test_plugins.xsh @(xxh_args)),
             "1234\n5678"
         )
 
