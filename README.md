@@ -18,7 +18,7 @@ it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
 
 1. Install `docker`, `docker-compose` and `xonsh` on your dev system.
 2. Create distinct empty `xxh` directory - it becomes partial representation of https://github.com/xxh. Clone this repo and `cd xxh/xxh-dev`.
-3. Run `./xde build` to git clone the repos master to 'xxh/' and build the docker containers. 
+3. Run `./xde build` to git clone the repos master to `xxh/` and build the docker containers. 
 4. Run `./xde up` to up the containers. 
 5. Run `./xde test` to run tests. In case of first errors don't panic and try to run tests again because sometimes 
 the initialization takes time.
