@@ -89,37 +89,47 @@ if __name__ == '__main__':
     mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
 
     print('Prepare repos (to avoid full update use --skip-repos-update)')
-    install_repos ={
+
+    xxh_shell_repos = {}
+    xxh_shell_repos['xxh-shell-xonsh-appimage'] = {
         'shells': ['xxh-shell-xonsh-appimage'],
         'plugins': ['xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar', 'xxh-plugin-xonsh-autojump']
     }
-    for rtype, repos  in install_repos.items():
-        for repo in repos:
-            if pf'/xxh/{repo}'.exists():
-                if opt.skip_repos_update:
-                    print(f'Repo {repo}: skip replacing from /xxh')
+
+
+    for xxh_shell, install_repos in xxh_shell_repos.items():
+        for rtype, repos  in install_repos.items():
+            for repo in repos:
+                repo_dir = fp'/root/.xxh/xxh/{rtype}/{repo}'
+                build_file = repo_dir/ 'build.xsh'
+                build_dir = repo_dir / 'build'
+                if not pf'/xxh/{repo}'.exists():
+                    print(f'Repo {repo}: git clone to /xxh/{repo}')
+                    git clone @(git_verbose_arg) --depth 1 https://github.com/xxh/@(repo) /xxh/@(repo)
+
+                if repo_dir.exists() and opt.skip_repos_update:
+                    print(f'Repo {repo}: skip replacing from /xxh/{repo}')
                 else:
-                    print(f'Repo {repo}: replaced from /xxh. Do not forget to pull from master!')
+                    print(f'Repo {repo}: replaced from /xxh/{repo}. Do not forget to pull from master!')
                     rm -rf /root/.xxh/xxh/@(rtype)/@(repo)
                     cp -r /xxh/@(repo) /root/.xxh/xxh/@(rtype)/
-            else:
-                print(f'Repo {repo}: git clone to /xxh')
-                git clone @(git_verbose_arg) --depth 1 https://github.com/xxh/@(repo) /xxh/@(repo)
 
-            build_file = fp'/root/.xxh/xxh/{rtype}/{repo}/build.xsh'
-            build_dir = fp'/root/.xxh/xxh/{rtype}/{repo}/build'
-            if build_file.exists():
-                if build_dir.exists() and opt.skip_repos_update:
-                    print(f'Repo {repo}: skip building')
+                if build_file.exists():
+                    if build_dir.exists() and opt.skip_repos_update:
+                        print(f'Repo {repo}: skip building')
+                    else:
+                        print(f'Repo {repo}: build')
+                        rm -rf @(build_dir)
+                        @(build_file) 1> /dev/null 2> /dev/null
                 else:
-                    print(f'Repo {repo}: build')
-                    rm -rf @(build_dir)
-                    @(build_file) 1> /dev/null 2> /dev/null
+                    print(f"Build file is not exists: {build_file}")
+                    sys.exit(1)
 
     xxh_args = []
 
     xxh = '/xxh/xxh/xxh'
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
+
     for host, h in hosts.items():
         if opt.hosts and host not in opt.hosts:
             continue
@@ -155,23 +165,23 @@ if __name__ == '__main__':
 
         check(
             'Test python',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/test_python.xsh @(xxh_args) ),
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_python.xsh @(xxh_args) ),
             "Python 3.8"
         )
 
         check(
             'Test pip upgrade',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/test_pip_upgrade.xsh @(xxh_args)),
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_upgrade.xsh @(xxh_args)),
             ""
         )
         check(
             'Test pip package install',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/test_pip_package_install.xsh @(xxh_args)),
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_package_install.xsh @(xxh_args)),
             ""
         )
         check(
             'Test pip package import',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/test_pip_package_import.xsh @(xxh_args)),
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_package_import.xsh @(xxh_args)),
             "[[1], [2], [3]]"
         )
 
@@ -179,14 +189,14 @@ if __name__ == '__main__':
 
         check(
             'Test xontrib',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/xonsh/test_xontrib.xsh @(xxh_args)),
             "autojump  installed      loaded\nschedule  installed      loaded"
         )
 
         check(
             'Test xxh plugins',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/test_plugins.xsh @(xxh_args)),
-            "1234\n5678"
+            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/xonsh/test_plugins.xsh @(xxh_args)),
+            "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
         )
 
     print('\nDONE')
