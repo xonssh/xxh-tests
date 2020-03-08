@@ -51,7 +51,7 @@ Try `./xde <command> --help` to get more info.
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
         args = parser.parse_args(sys.argv[2:])
 
-        repo_base_path = opt.repo_base
+        repo_base_path = args.repo_base
         quiet = [] if args.verbose else ['-q']
 
         for repo in clone_repos:
