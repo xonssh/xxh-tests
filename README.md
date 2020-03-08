@@ -20,7 +20,7 @@ it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
 2. Create distinct empty `xxh` directory - it becomes partial representation of https://github.com/xxh. Clone this repo and `cd xxh/xxh-dev`.
 3. Run `./xde build` to git clone the repos master to `xxh/` and build the docker containers. 
 4. Run `./xde up` to up the containers. 
-5. Run `./xde test` to run tests. In case of first errors don't panic and try to run tests again because sometimes 
+5. Run `./xde test` or `./xde t` to run tests. In case of first errors don't panic and try to run tests again because sometimes 
 the initialization takes time.
 6. Open `xxh` dir in your IDE to make changes and commit many repos.
 7. Now you can go to `start` host and try your first connect using xxh:
@@ -30,8 +30,9 @@ the initialization takes time.
 ./xxh -i /xxh/xxh-dev/keys/id_rsa root@ubuntu_k
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
-8. After end of work you can `./xde stop` or `./xde remove` the containers. You rock! 
-9. Try to find easter egg in the code and tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community)
+8. Run tests `./xde t` (don't forget about `./xde t --help`) 
+8. After end of work you can `./xde stop` or `./xde remove` the containers. 
+9. You rock! Try to find easter egg in the code and tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community)
 
 This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.14`, `pycharm 2019.3.3`.
 
