@@ -38,6 +38,8 @@ Try `./xde <command> --help` to get more info.
                   "STOP")
             sys.exit(1)
 
+        clone_repos = ['xxh', 'xxh-shell-xonsh-appimage']
+
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
@@ -45,18 +47,15 @@ Try `./xde <command> --help` to get more info.
 
         quiet = [] if args.verbose else ['-q']
 
-        if not p'../xxh'.exists():
-            git clone @(quiet) https://github.com/xonssh/xxh ../xxh
+        for repo in clone_repos:
+            if not pf'../{repo}'.exists():
+                print(f'git clone {repo}')
+                git clone @(quiet) https://github.com/xxh/@(repo) ../@(repo)
 
-        if not p'../xxh-shell-xonsh-appimage'.exists():
-            git clone @(quiet) https://github.com/xxh/xxh-shell-xonsh-appimage ../xxh-shell-xonsh-appimage
-
-        docker build . -f xxh-dev-start.Dockerfile -t xxh/xxh-dev-start @(quiet)
-        docker build . -f xxh-dev-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k @(quiet)
-        docker build . -f xxh-dev-ubuntu-kf.Dockerfile -t xxh/xxh-dev-ubuntu-kf @(quiet)
-
-        print('Repos in ../xxh:')
-        ls -1 ../
+        for dockerfile in p'.'.glob('xxh-dev-*.Dockerfile'):
+            container_name = str(dockerfile).split('.Dockerfile')[0]
+            print(f'docker build {container_name}')
+            docker build . -f @(dockerfile) -t xxh/@(container_name) @(quiet)
 
     def up(self):
         docker-compose up -d
