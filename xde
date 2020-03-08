@@ -43,17 +43,21 @@ Try `./xde <command> --help` to get more info.
         clone_repos = ['xxh', 'xxh-shell-xonsh-appimage', 'xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar',
                        'xxh-plugin-xonsh-autojump']
 
+        repo_base_path = 'https://github.com/xxh'
+
         parser = argparse.ArgumentParser(description='')
-        parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose")
+        parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose mode")
+        parser.add_argument('-rb', '--repo-base', default=repo_base_path, help=f"Repos base path. Default: {repo_base_path}")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
         args = parser.parse_args(sys.argv[2:])
 
+        repo_base_path = opt.repo_base
         quiet = [] if args.verbose else ['-q']
 
         for repo in clone_repos:
             if not (xxh_path/repo).exists():
                 print(f'git clone {repo}')
-                git clone @(quiet) https://github.com/xxh/@(repo) @(xxh_path/repo)
+                git clone @(quiet) @(repo_base_path)/@(repo) @(xxh_path/repo)
 
         for dockerfile in p'.'.glob('xxh-dev-*.Dockerfile'):
             container_name = str(dockerfile).split('.Dockerfile')[0]
