@@ -119,7 +119,7 @@ Try `./xde <command> --help` to get more info.
         parser.usage = parser.format_usage().replace('xde ', 'xde release ')
         args = parser.parse_args(sys.argv[2:])
 
-        cd ./xxh && python3 setup.py sdist bdist_wheel && twine upload dist/*
+        cd ../xxh && python3 setup.py sdist bdist_wheel && twine upload dist/*
 
         if args.remove:
             print('Remove build dirs')
