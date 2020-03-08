@@ -31,11 +31,18 @@ Try `./xde <command> --help` to get more info.
         getattr(self, args.command)()
 
     def build(self):
-        if not p'xxh'.exists():
-            git clone https://github.com/xonssh/xxh
+        parent_name = str(pf"{__file__}".absolute().parent.parent.name)
+        if parent_name != 'xxh':
+            print("Please create one distinct directory with name 'xxh' and place xxh-dev to it.\n"
+                  "Try xde build again. Finally you could open xxh directory in IDE to commit to many repos.\n"
+                  "STOP")
+            sys.exit(1)
 
-        if not p'xxh-shell-xonsh-appimage'.exists():
-            git clone https://github.com/xxh/xxh-shell-xonsh-appimage
+        if not p'../xxh'.exists():
+            git clone https://github.com/xonssh/xxh ../xxh
+
+        if not p'../xxh-shell-xonsh-appimage'.exists():
+            git clone https://github.com/xxh/xxh-shell-xonsh-appimage ../xxh-shell-xonsh-appimage
 
         docker build . -f xxh-dev-start.Dockerfile -t xxh/xxh-dev-start
         docker build . -f xxh-dev-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k
@@ -64,7 +71,7 @@ Try `./xde <command> --help` to get more info.
         return self.test()
 
     def test(self):
-        docker exec -it xxh-dev_start_1 xonsh /xxh-dev/tests/tests.xsh @(sys.argv[2:])
+        docker exec -it xxh-dev_start_1 xonsh /xxh/xxh-dev/tests/tests.xsh @(sys.argv[2:])
 
     def g(self):
         return self.goto()

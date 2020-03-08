@@ -8,20 +8,20 @@ services:
       - ubuntu_kf
       - arch_p
     volumes:
-      - .:/xxh-dev
-    working_dir: /xxh-dev
+      - ..:/xxh
+    working_dir: /xxh/xxh
 
   ubuntu_k:
     hostname: ubuntu_k
     image: xxh/xxh-dev-ubuntu-k
     volumes:
-      - .:/xxh-dev
+      - ..:/xxh
 
   ubuntu_kf:
     hostname: ubuntu_kf
     image: xxh/xxh-dev-ubuntu-kf
     volumes:
-      - .:/xxh-dev
+      - ..:/xxh
     cap_add:
       - SYS_ADMIN
       - MKNOD
@@ -34,7 +34,7 @@ services:
     hostname: arch_p
     image: yantis/archlinux-small-ssh-hpn  # https://github.com/yantis/docker-archlinux-ssh-hpn
     volumes:
-      - .:/xxh-dev
+      - ..:/xxh
 
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
@@ -51,4 +51,4 @@ services:
 #      - SUDO_ACCESS=true
 #      - PUBLIC_KEY_FILE=/xxh-dev/keys/id_rsa.pub
 #    volumes:
-#      - .:/xxh-dev
+#      - ..:/xxh
