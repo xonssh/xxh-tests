@@ -65,12 +65,24 @@ Try `./xde <command> --help` to get more info.
             docker build . -f @(dockerfile) -t xxh/@(container_name) @(quiet)
 
     def up(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.usage = parser.format_usage().replace('xde ', 'xde up ')
+        args = parser.parse_args(sys.argv[2:])
+
         docker-compose up -d
 
     def start(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.usage = parser.format_usage().replace('xde ', 'xde start ')
+        args = parser.parse_args(sys.argv[2:])
+
         docker-compose start
 
     def stop(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.usage = parser.format_usage().replace('xde ', 'xde stop ')
+        args = parser.parse_args(sys.argv[2:])
+
         docker-compose stop
 
     def remove(self):

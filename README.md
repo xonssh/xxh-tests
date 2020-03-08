@@ -4,7 +4,7 @@ with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUS
 
 Docker containers in the network:
 
-| Name/Host | Auth             | FUSE | rsync |
+| Hostname  | Auth             | FUSE | rsync |
 |-----------|------------------|------|-------|
 | start     | `./xde g start`  |      |       |
 | ubuntu_k  | key              |      |       |
@@ -39,7 +39,7 @@ This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `doc
 ## xxh development environment tool
 
 ```
-$ ./xde -h                                                                                                                                                                                              
+$ ./xde -h
 usage: xde <command>
 
 xxh development environment commands:
