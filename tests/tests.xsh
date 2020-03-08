@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
 
-    print('Prepare repos...')
+    print('Prepare repos (to avoid full update use --skip-repos-update)')
     install_repos ={
         'shells': ['xxh-shell-xonsh-appimage'],
         'plugins': ['xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar', 'xxh-plugin-xonsh-autojump']
@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
     xxh_args = []
 
-    xxh = '../xxh/xxh'
+    xxh = '/xxh/xxh/xxh'
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
     for host, h in hosts.items():
         if opt.hosts and host not in opt.hosts:
