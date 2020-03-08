@@ -4,12 +4,12 @@ with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUS
 
 Docker containers in the network:
 
-| Name/Host | Auth                                          | FUSE | rsync |
-|-----------|-----------------------------------------------|------|-------|
-| start     | `./xde goto start`                            |      |       |
-| ubuntu_k  | `start$ ssh -i keys/id_rsa root@ubuntu_k`     |      |       |
-| ubuntu_kf | `start$ ssh -i keys/id_rsa root@ubuntu_kf`    | yes  |  yes  |
-| arch_p    | `start$ sshpass -p docker ssh docker@arch_p`  |      |       |
+| Name/Host | Auth             | FUSE | rsync |
+|-----------|------------------|------|-------|
+| start     | `./xde g start`  |      |       |
+| ubuntu_k  | key              |      |       |
+| ubuntu_kf | key              | yes  |  yes  |
+| arch_p    | password         |      |       |
 
 Every container has `/xxh` it is the volume. For example if you'll add a file to `tests/new.xsh` 
 it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
@@ -26,7 +26,7 @@ the initialization takes time.
 7. Now you can go to `start` host and try your first connect using xxh:
 ```
 ./xde goto start
-cd /xxh/xxh
+# Press UP key to get connection strings to other hosts. For example:
 ./xxh -i /xxh/xxh-dev/keys/id_rsa root@ubuntu_k
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
