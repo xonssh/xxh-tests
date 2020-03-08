@@ -31,14 +31,17 @@ Try `./xde <command> --help` to get more info.
         getattr(self, args.command)()
 
     def build(self):
-        parent_name = str(pf"{__file__}".absolute().parent.parent.name)
+        base_path = pf"{os.path.realpath(__file__)}"
+        xxh_path = base_path.parent.parent
+        parent_name = str(xxh_path.name)
         if parent_name != 'xxh':
             print("Please create one distinct directory with name 'xxh' and place xxh-dev to it.\n"
                   "Try xde build again. Finally you could open xxh directory in IDE to commit to many repos.\n"
                   "STOP")
             sys.exit(1)
 
-        clone_repos = ['xxh', 'xxh-shell-xonsh-appimage']
+        clone_repos = ['xxh', 'xxh-shell-xonsh-appimage', 'xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar',
+                       'xxh-plugin-xonsh-autojump']
 
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose")
@@ -48,9 +51,9 @@ Try `./xde <command> --help` to get more info.
         quiet = [] if args.verbose else ['-q']
 
         for repo in clone_repos:
-            if not pf'../{repo}'.exists():
+            if not (xxh_path/repo).exists():
                 print(f'git clone {repo}')
-                git clone @(quiet) https://github.com/xxh/@(repo) ../@(repo)
+                git clone @(quiet) https://github.com/xxh/@(repo) @(xxh_path/repo)
 
         for dockerfile in p'.'.glob('xxh-dev-*.Dockerfile'):
             container_name = str(dockerfile).split('.Dockerfile')[0]

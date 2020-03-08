@@ -8,6 +8,7 @@ from xxh.xonssh_xxh.settings import global_settings
 xxh_version=global_settings['XXH_VERSION']
 verbose = False
 vverbose = False
+not_interactive = False
 
 def cmd_str(c):
     return c
@@ -29,10 +30,11 @@ def check(name, cmd, expected_result):
 
         if cmd_result != expected_result:
             print('ERROR!')
-            cmdv = cmd.replace('xxh ', 'xxh +v ')
-            yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
-            if yn.lower().strip() in ['y','']:
-                bash -c @(cmdv)
+            if not not_interactive:
+                cmdv = cmd.replace('xxh ', 'xxh +v ')
+                yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
+                if yn.lower().strip() in ['y','']:
+                    bash -c @(cmdv)
             sys.exit(1)
 
     print('OK')
@@ -41,14 +43,19 @@ if __name__ == '__main__':
 
     argp = argparse.ArgumentParser(description=f"xde test")
     argp.add_argument('-r', '--remove', default=False, action='store_true', help="Remove xxh home before tests.")
+    argp.add_argument('-ni', '--not-interactive', default=False, action='store_true', help="Not interactive mode.")
     argp.add_argument('-v', '--verbose', default=False, action='store_true', help="Verbose mode.")
     argp.add_argument('-vv', '--vverbose', default=False, action='store_true', help="Super verbose mode.")
     argp.add_argument('-H', '--hosts', default=[], help="Comma separated hosts list")
+    argp.add_argument('-sr', '--skip-repos-update', default=False, action='store_true', help="Skip repos update before test running.")
     argp.usage = argp.format_usage().replace('usage: tests.xsh', 'xde test')
     opt = argp.parse_args()
     verbose = opt.verbose
+    not_interactive = opt.not_interactive
     if opt.vverbose:
         verbose = vverbose = True
+
+    git_verbose_arg = [] if verbose else ['-q']
 
     if opt.hosts:
         opt.hosts = opt.hosts.split(',')
@@ -73,17 +80,43 @@ if __name__ == '__main__':
     rm -rf /root/.ssh/known_hosts
 
     if opt.remove:
-        print('Remove xxh home')
+        print('Remove start:/root/.xxh')
         rm -rf /root/.xxh
 
     if not p'/root/.xxh/xxh/shells'.exists():
         print('First time of executing tests takes time because of downloading files. Take a gulp of water or a few :)')
 
+    mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
+
+    print('Prepare repos...')
+    install_repos ={
+        'shells': ['xxh-shell-xonsh-appimage'],
+        'plugins': ['xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar', 'xxh-plugin-xonsh-autojump']
+    }
+    for rtype, repos  in install_repos.items():
+        for repo in repos:
+            if pf'/xxh/{repo}'.exists():
+                if opt.skip_repos_update:
+                    print(f'Repo {repo}: skip replacing from /xxh')
+                else:
+                    print(f'Repo {repo}: replaced from /xxh. Do not forget to pull from master!')
+                    rm -rf /root/.xxh/xxh/@(rtype)/@(repo)
+                    cp -r /xxh/@(repo) /root/.xxh/xxh/@(rtype)/
+            else:
+                print(f'Repo {repo}: git clone to /xxh')
+                git clone @(git_verbose_arg) --depth 1 https://github.com/xxh/@(repo) /xxh/@(repo)
+
+            build_file = fp'/root/.xxh/xxh/{rtype}/{repo}/build.xsh'
+            build_dir = fp'/root/.xxh/xxh/{rtype}/{repo}/build'
+            if build_file.exists():
+                if build_dir.exists() and opt.skip_repos_update:
+                    print(f'Repo {repo}: skip building')
+                else:
+                    print(f'Repo {repo}: build')
+                    rm -rf @(build_dir)
+                    @(build_file) 1> /dev/null 2> /dev/null
+
     xxh_args = []
-    shell_source_dir = p'/xxh/xxh-shell-xonsh-appimage'
-    if shell_source_dir.exists():
-        print(f'Shell source is {shell_source_dir}')
-        xxh_args += ['+ss', str(shell_source_dir)]
 
     xxh = '../xxh/xxh'
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
@@ -149,16 +182,6 @@ if __name__ == '__main__':
             $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/test_xontrib.xsh @(xxh_args)),
             "autojump  installed      loaded\nschedule  installed      loaded"
         )
-
-        # Plugins
-
-        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-pipe-liner'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-pipe-liner /root/.xxh/xxh/plugins/xxh-plugin-xonsh-pipe-liner
-        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-theme-bar'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-theme-bar  /root/.xxh/xxh/plugins/xxh-plugin-xonsh-theme-bar
-        if not p'/root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump'.exists():
-            git clone --quiet --depth 1 https://github.com/xxh/xxh-plugin-xonsh-autojump  /root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump
-            /root/.xxh/xxh/plugins/xxh-plugin-xonsh-autojump/build.xsh 1> /dev/null 2> /dev/null
 
         check(
             'Test xxh plugins',
