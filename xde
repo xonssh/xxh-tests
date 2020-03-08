@@ -38,15 +38,25 @@ Try `./xde <command> --help` to get more info.
                   "STOP")
             sys.exit(1)
 
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose")
+        parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
+        args = parser.parse_args(sys.argv[2:])
+
+        quiet = [] if args.verbose else ['-q']
+
         if not p'../xxh'.exists():
-            git clone https://github.com/xonssh/xxh ../xxh
+            git clone @(quiet) https://github.com/xonssh/xxh ../xxh
 
         if not p'../xxh-shell-xonsh-appimage'.exists():
-            git clone https://github.com/xxh/xxh-shell-xonsh-appimage ../xxh-shell-xonsh-appimage
+            git clone @(quiet) https://github.com/xxh/xxh-shell-xonsh-appimage ../xxh-shell-xonsh-appimage
 
-        docker build . -f xxh-dev-start.Dockerfile -t xxh/xxh-dev-start
-        docker build . -f xxh-dev-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k
-        docker build . -f xxh-dev-ubuntu-kf.Dockerfile -t xxh/xxh-dev-ubuntu-kf
+        docker build . -f xxh-dev-start.Dockerfile -t xxh/xxh-dev-start @(quiet)
+        docker build . -f xxh-dev-ubuntu-k.Dockerfile -t xxh/xxh-dev-ubuntu-k @(quiet)
+        docker build . -f xxh-dev-ubuntu-kf.Dockerfile -t xxh/xxh-dev-ubuntu-kf @(quiet)
+
+        print('Repos in ../xxh:')
+        ls -1 ../
 
     def up(self):
         docker-compose up -d
