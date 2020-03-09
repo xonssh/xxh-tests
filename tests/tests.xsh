@@ -46,6 +46,7 @@ if __name__ == '__main__':
     argp.add_argument('-ni', '--not-interactive', default=False, action='store_true', help="Not interactive mode.")
     argp.add_argument('-v', '--verbose', default=False, action='store_true', help="Verbose mode.")
     argp.add_argument('-vv', '--vverbose', default=False, action='store_true', help="Super verbose mode.")
+    argp.add_argument('-s', '--shell', help="Shells to test")
     argp.add_argument('-H', '--hosts', default=[], help="Comma separated hosts list")
     argp.add_argument('-sr', '--skip-repos-update', default=False, action='store_true', help="Skip repos update before test running.")
     argp.usage = argp.format_usage().replace('usage: tests.xsh', 'xde test')
@@ -92,10 +93,16 @@ if __name__ == '__main__':
 
     xxh_shell_repos = {}
     xxh_shell_repos['xxh-shell-xonsh-appimage'] = {
-        'shells': ['xxh-shell-xonsh-appimage'],
+        'shells': ['xxh-shell-xonsh-appimage', 'xxh-shell-zsh'],
         'plugins': ['xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar', 'xxh-plugin-xonsh-autojump']
     }
+    xxh_shell_repos['xxh-shell-zsh'] = {
+        'shells': ['xxh-shell-zsh'],
+        'plugins': []
+    }
 
+    if opt.shell:
+        xxh_shell_repos = {opt.shell: xxh_shell_repos[opt.shell]}
 
     for xxh_shell, install_repos in xxh_shell_repos.items():
         for rtype, repos  in install_repos.items():
@@ -130,73 +137,91 @@ if __name__ == '__main__':
     xxh = '/xxh/xxh/xxh'
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
 
-    for host, h in hosts.items():
-        if opt.hosts and host not in opt.hosts:
-            continue
+    for shell in xxh_shell_repos.keys():
+        for host, h in hosts.items():
+            if opt.hosts and host not in opt.hosts:
+                continue
 
-        print(f'\n[{host}]')
-        user = h['user']
-        server = user + '@' + host
-        host_home = h['home']
+            print(f'\n[{shell} + {host}]')
+            user = h['user']
+            server = user + '@' + host
+            host_home = h['home']
 
-        check(
-            f'Remove {server}:~/.xxh',
-            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "rm -rf ~/.xxh"),
-            ''
-        )
+            check(
+                f'Remove {server}:~/.xxh',
+                $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "rm -rf ~/.xxh"),
+                ''
+            )
 
-        check(
-            'Test connect using ssh',
-            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "echo Test!"),
-            'Test!'
-        )
+            check(
+                'Test connect using ssh',
+                $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) "echo Test!"),
+                'Test!'
+            )
 
-        check(
-            'Test install xxh',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
-            "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
-        )
+            check(
+                'Test install xxh',
+                $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +hf @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
+                "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
+            )
 
-        check(
-            'Test AppImage extraction on the host',
-            $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
-            'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
-        )
 
-        check(
-            'Test python',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_python.xsh @(xxh_args) ),
-            "Python 3.8"
-        )
+            if shell == 'xxh-shell-xonsh-appimage':
+                check(
+                    'Test AppImage extraction on the host',
+                    $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+                    'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
+                )
 
-        check(
-            'Test pip upgrade',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_upgrade.xsh @(xxh_args)),
-            ""
-        )
-        check(
-            'Test pip package install',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_package_install.xsh @(xxh_args)),
-            ""
-        )
-        check(
-            'Test pip package import',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +he /xxh/xxh-dev/tests/xonsh/test_pip_package_import.xsh @(xxh_args)),
-            "[[1], [2], [3]]"
-        )
+                check(
+                    'Test python',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_python.xsh @(xxh_args) ),
+                    "Python 3.8"
+                )
 
-        # Xontribs
+                check(
+                    'Test pip upgrade',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_pip_upgrade.xsh @(xxh_args)),
+                    ""
+                )
+                check(
+                    'Test pip package install',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_pip_package_install.xsh @(xxh_args)),
+                    ""
+                )
+                check(
+                    'Test pip package import',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_pip_package_import.xsh @(xxh_args)),
+                    "[[1], [2], [3]]"
+                )
 
-        check(
-            'Test xontrib',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/xonsh/test_xontrib.xsh @(xxh_args)),
-            "autojump  installed      loaded\nschedule  installed      loaded"
-        )
+                # Xontribs
 
-        check(
-            'Test xxh plugins',
-            $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +he /xxh/xxh-dev/tests/xonsh/test_plugins.xsh @(xxh_args)),
-            "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
-        )
+                check(
+                    'Test xontrib',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +hf /xxh/xxh-dev/tests/xonsh/test_xontrib.xsh @(xxh_args)),
+                    "autojump  installed      loaded\nschedule  installed      loaded"
+                )
+
+                check(
+                    'Test xxh plugins',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +hf /xxh/xxh-dev/tests/xonsh/test_plugins.xsh @(xxh_args)),
+                    "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
+                )
+
+            elif shell == 'xxh-shell-zsh':
+                shell_arg = ['+s', shell]
+                check(
+                    'Test zsh env',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/zsh/test_env.zsh @(xxh_args) @(shell_arg) ),
+                    "test zsh"
+                )
+
+                check(
+                    'Test zsh command',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"zsh\\" command\'"') @(xxh_args) @(shell_arg) ),
+                    'test "zsh" command'
+                )
+
 
     print('\nDONE')

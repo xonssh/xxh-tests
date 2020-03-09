@@ -59,7 +59,7 @@ Try `./xde <command> --help` to get more info.
                 print(f'git clone {repo}')
                 git clone @(quiet) @(repo_base_path)/@(repo) @(xxh_path/repo)
 
-        for dockerfile in p'.'.glob('xxh-dev-*.Dockerfile'):
+        for dockerfile in sorted(p'.'.glob('xxh-dev-*.Dockerfile')):
             container_name = str(dockerfile).split('.Dockerfile')[0]
             print(f'docker build {container_name}')
             docker build . -f @(dockerfile) -t xxh/@(container_name) @(quiet)
