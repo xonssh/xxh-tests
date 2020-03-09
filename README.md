@@ -9,6 +9,7 @@ Docker containers in the network:
 | start     | `./xde g start`  |      |       |
 | ubuntu_k  | key              |      |       |
 | ubuntu_kf | key              | yes  |  yes  |
+| centos_k  | key              |      |       |
 | arch_p    | password         |      |       |
 
 Every container has `/xxh` it is the volume. For example if you'll add a file to `tests/new.xsh` 

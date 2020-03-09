@@ -70,6 +70,7 @@ if __name__ == '__main__':
         'sshpass': []
     }
     hosts['ubuntu_kf'] = hosts['ubuntu_k']
+    hosts['centos_k'] = hosts['ubuntu_k']
     hosts['arch_p'] = {
         'user':'docker',
         'home':'/home/docker',

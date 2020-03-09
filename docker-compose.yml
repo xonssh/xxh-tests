@@ -9,7 +9,7 @@ services:
       - arch_p
     volumes:
       - ..:/xxh
-    working_dir: /xxh/xxh
+    working_dir: /root
 
   ubuntu_k:
     hostname: ubuntu_k
@@ -30,12 +30,17 @@ services:
     security_opt:
       - apparmor:unconfined
 
+  centos_k:
+    hostname: centos_k
+    image: xxh/xxh-dev-centos-k
+    volumes:
+      - ..:/xxh
+
   arch_p:
     hostname: arch_p
     image: yantis/archlinux-small-ssh-hpn  # https://github.com/yantis/docker-archlinux-ssh-hpn
     volumes:
       - ..:/xxh
-
 
 #  # Alpine is not supported (https://github.com/AppImage/AppImageKit/issues/1015)
 #  alpine_p:
