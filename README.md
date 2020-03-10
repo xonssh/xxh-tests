@@ -28,7 +28,7 @@ the initialization takes time.
 ```
 ./xde goto start
 # Press UP key to get connection strings to other hosts from bash history. For example:
-./xxh -i /xxh/xxh-dev/keys/id_rsa root@ubuntu_k
+./xxh -i id_rsa root@ubuntu_k
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. Run tests `./xde t` (don't forget about `./xde t --help`) 
