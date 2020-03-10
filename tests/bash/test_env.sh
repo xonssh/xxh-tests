@@ -1,0 +1,1 @@
+echo "xxh_home=$XXH_HOME"

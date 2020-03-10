@@ -101,6 +101,10 @@ if __name__ == '__main__':
         'shells': ['xxh-shell-zsh'],
         'plugins': []
     }
+    xxh_shell_repos['xxh-shell-bash-zero'] = {
+        'shells': ['xxh-shell-bash-zero'],
+        'plugins': []
+    }
 
     if opt.shell:
         xxh_shell_repos = {opt.shell: xxh_shell_repos[opt.shell]}
@@ -222,6 +226,19 @@ if __name__ == '__main__':
                     'Test zsh command',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"zsh\\" command\'"') @(xxh_args) @(shell_arg) ),
                     'test "zsh" command'
+                )
+            elif shell == 'xxh-shell-bash-zero':
+                shell_arg = ['+s', shell]
+                check(
+                    'Test zsh env',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_env.sh @(xxh_args) @(shell_arg) ),
+                    "xxh_home=/root/.xxh"
+                )
+
+                check(
+                    'Test zsh command',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"bash\\" command\'"') @(xxh_args) @(shell_arg) ),
+                    'test "bash" command'
                 )
 
 
