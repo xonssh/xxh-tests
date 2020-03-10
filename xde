@@ -6,20 +6,16 @@ class XxhDevEnv(object):
         with open('docker-compose.yml') as docker_compose:
             self.containers = sorted(yaml.load(docker_compose, Loader=yaml.FullLoader)['services'].keys())
         parser = argparse.ArgumentParser(
-            usage='''xde <command>
-
-xxh development environment commands:
-
-   build       Build the docker containers and get the xxh code if ./xxh is not exists
-   up          Docker-compose up the containers
-   test    t   Run tests
-   goto    g   Open bash by the container name part
-   start       Docker-compose start the containers
-   stop        Docker-compose stop the containers
-   remove      Docker-compose remove the containers
-   
-Try `./xde <command> --help` to get more info.
-''')
+            usage='xde <command>\n\n'
+                + 'xxh development environment commands:\n\n'
+                + '   build       Build the docker containers and get the xxh code if ./xxh is not exists\n'
+                + '   up          Docker-compose up the containers\n'
+                + '   test    t   Run tests\n'
+                + '   goto    g   Open bash by the container name part\n'
+                + '   start       Docker-compose start the containers\n'
+                + '   stop        Docker-compose stop the containers\n'
+                + '   remove      Docker-compose remove the containers\n\n'
+                + 'Try `./xde <command> --help` to get more info.\n')
         parser.add_argument('command', help='Command to run')
 
         args = parser.parse_args(sys.argv[1:2])
