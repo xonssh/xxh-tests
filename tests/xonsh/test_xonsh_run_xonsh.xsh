@@ -1,0 +1,1 @@
+xonsh /xxh/xxh-dev/tests/xonsh/xonsh_script.xsh

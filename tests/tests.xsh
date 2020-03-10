@@ -185,6 +185,12 @@ if __name__ == '__main__':
                 )
 
                 check(
+                    'Test xonsh run xonsh script',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_xonsh_run_xonsh.xsh @(xxh_args)),
+                    "123\n/root/.xxh"
+                )
+
+                check(
                     'Test pip upgrade',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_pip_upgrade.xsh @(xxh_args)),
                     ""
