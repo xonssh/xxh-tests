@@ -219,7 +219,7 @@ if __name__ == '__main__':
                 check(
                     'Test zsh env',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/zsh/test_env.zsh @(xxh_args) @(shell_arg) ),
-                    "test zsh"
+                    "test zsh /root/.xxh"
                 )
 
                 check(

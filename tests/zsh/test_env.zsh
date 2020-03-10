@@ -1,1 +1,1 @@
-echo "test $ZSH_NAME"
+echo "test $ZSH_NAME $XXH_HOME"
