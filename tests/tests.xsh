@@ -99,7 +99,7 @@ if __name__ == '__main__':
     }
     xxh_shell_repos['xxh-shell-zsh'] = {
         'shells': ['xxh-shell-zsh'],
-        'plugins': []
+        'plugins': ['xxh-plugin-zsh-ohmyzsh']
     }
     xxh_shell_repos['xxh-shell-bash-zero'] = {
         'shells': ['xxh-shell-bash-zero'],
