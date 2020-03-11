@@ -14,30 +14,41 @@ def cmd_str(c):
     return c
 
 def check(name, cmd, expected_result):
-    print('TEST: '+name, end='...')
-    cmd = cmd.strip()
-    cmd_result = $(bash -c @(cmd)).strip()
-    cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
-    cmd_result = re.sub(r'\x1b\[\d+m','', cmd_result)
-    cmd_result = re.sub(r'\x1b\[\d+;\d+;\d+m','', cmd_result)
+    try_count = 3
+    while try_count > 0:
+        try_count -= 1
+        print('TEST: '+name, end='...')
+        cmd = cmd.strip()
+        cmd_result = $(bash -c @(cmd)).strip()
+        cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
+        cmd_result = re.sub(r'\x1b\[\d+m','', cmd_result)
+        cmd_result = re.sub(r'\x1b\[\d+;\d+;\d+m','', cmd_result)
 
-    expected_result = expected_result.strip()
-    if cmd_result != expected_result or vverbose:
-        print('\n',end='')
-        if verbose:
-            print(f'CMD: {cmd}')
-        print(f"OUTPUT {repr(cmd_result)}\nEXPECT {repr(expected_result)} ")
+        expected_result = expected_result.strip()
+        if cmd_result != expected_result or vverbose:
+            print('\n',end='')
+            if verbose:
+                print(f'CMD: {cmd}')
+            print(f"OUTPUT {repr(cmd_result)}\nEXPECT {repr(expected_result)} ")
 
-        if cmd_result != expected_result:
-            print('ERROR!')
-            if not not_interactive:
-                cmdv = cmd.replace('xxh ', 'xxh +v ')
-                yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
-                if yn.lower().strip() in ['y','']:
-                    bash -c @(cmdv)
-            sys.exit(1)
+            if cmd_result != expected_result:
+                if try_count > 0:
+                    print('RETRY')
+                    continue
+                else:
+                    print('ERROR!')
+                    if not not_interactive:
+                        cmdv = cmd.replace('xxh ', 'xxh +v ')
+                        yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
+                        if yn.lower().strip() in ['y','']:
+                            bash -c @(cmdv)
+                    if try_count > 0:
+                        continue
+                    else:
+                        sys.exit(1)
 
-    print('OK')
+        print('OK')
+        break
 
 if __name__ == '__main__':
 
@@ -187,7 +198,7 @@ if __name__ == '__main__':
                 check(
                     'Test xonsh run xonsh script',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_xonsh_run_xonsh.xsh @(xxh_args)),
-                    "123\n/root/.xxh"
+                    "123\n.xxh"
                 )
 
                 check(
@@ -225,7 +236,7 @@ if __name__ == '__main__':
                 check(
                     'Test zsh env',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/zsh/test_env.zsh @(xxh_args) @(shell_arg) ),
-                    "test zsh /root/.xxh"
+                    "test zsh .xxh"
                 )
 
                 check(
@@ -238,7 +249,7 @@ if __name__ == '__main__':
                 check(
                     'Test zsh env',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_env.sh @(xxh_args) @(shell_arg) ),
-                    "xxh_home=/root/.xxh"
+                    "test bash xxh .xxh"
                 )
 
                 check(

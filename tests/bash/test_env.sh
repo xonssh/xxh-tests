@@ -1,1 +1,1 @@
-echo "xxh_home=$XXH_HOME"
+echo "test bash xxh $(basename -- "$XXH_HOME")"
