@@ -8,7 +8,7 @@ class XxhDevEnv(object):
         parser = argparse.ArgumentParser(
             usage='xde <command>\n\n'
                 + 'xxh development environment commands:\n\n'
-                + '   build       Build the docker containers and get the xxh code if ./xxh is not exists\n'
+                + '   build       Build the docker containers and git clone the xxh repos if needed\n'
                 + '   up          Docker-compose up the containers\n'
                 + '   test    t   Run tests\n'
                 + '   goto    g   Open bash by the container name part\n'
