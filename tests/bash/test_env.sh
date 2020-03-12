@@ -1,1 +1,1 @@
-echo "test bash xxh $(basename -- "$XXH_HOME")"
+echo "test bash xxh $(basename -- "$XXH_HOME") and env=$TESTENV"

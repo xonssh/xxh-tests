@@ -1,1 +1,1 @@
-echo "test $ZSH_NAME $(basename -- "$XXH_HOME")"
+echo "test $ZSH_NAME $(basename -- "$XXH_HOME") and env=$TESTENV"

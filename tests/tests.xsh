@@ -175,14 +175,13 @@ if __name__ == '__main__':
                 'Test!'
             )
 
-            check(
-                'Test install xxh',
-                $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +hf @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
-                "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
-            )
-
-
             if shell == 'xxh-shell-xonsh-appimage':
+                check(
+                    'Test install xxh',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
+                    "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
+                )
+
                 check(
                     'Test AppImage extraction on the host',
                     $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
@@ -197,8 +196,8 @@ if __name__ == '__main__':
 
                 check(
                     'Test xonsh run xonsh script',
-                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_xonsh_run_xonsh.xsh @(xxh_args)),
-                    "123\n.xxh"
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +hf /xxh/xxh-dev/tests/xonsh/test_xonsh_run_xonsh.xsh +e TESTENV="test env" @(xxh_args)),
+                    "123\n.xxh\ntest env"
                 )
 
                 check(
@@ -235,8 +234,8 @@ if __name__ == '__main__':
                 shell_arg = ['+s', shell]
                 check(
                     'Test zsh env',
-                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/zsh/test_env.zsh @(xxh_args) @(shell_arg) ),
-                    "test zsh .xxh"
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/zsh/test_env.zsh +e TESTENV="test env" @(xxh_args) @(shell_arg) ),
+                    "test zsh .xxh and env=test env"
                 )
 
                 check(
@@ -248,8 +247,8 @@ if __name__ == '__main__':
                 shell_arg = ['+s', shell]
                 check(
                     'Test zsh env',
-                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_env.sh @(xxh_args) @(shell_arg) ),
-                    "test bash xxh .xxh"
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_env.sh +e TESTENV="test env" @(xxh_args) @(shell_arg) ),
+                    "test bash xxh .xxh and env=test env"
                 )
 
                 check(
