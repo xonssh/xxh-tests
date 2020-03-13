@@ -97,6 +97,7 @@ if __name__ == '__main__':
         rm -rf /root/.xxh
 
     if not p'/root/.xxh/xxh/shells'.exists():
+        print("Don't forget `pip uninstall xonssh-xxh` before tests")
         print('First time of executing tests takes time because of downloading files. Take a gulp of water or a few :)')
 
     mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
