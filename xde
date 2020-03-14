@@ -131,7 +131,7 @@ class XxhDevEnv(object):
 
         if args.remove:
             print('Remove build dirs')
-            rm -rf ./build ./dist ./xonssh_xxh.egg-info
+            rm -rf ./build ./dist ./xxh_xxh.egg-info
 
 
 if __name__ == '__main__':

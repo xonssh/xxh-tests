@@ -3,7 +3,7 @@
 import sys, os, argparse, re
 
 sys.path.append( str(fp'{__file__}'.parent.parent.parent) )
-from xxh.xonssh_xxh.settings import global_settings
+from xxh.xxh_xxh.settings import global_settings
 
 xxh_version=global_settings['XXH_VERSION']
 verbose = False
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         rm -rf /root/.xxh
 
     if not p'/root/.xxh/xxh/shells'.exists():
-        print("Don't forget `pip uninstall xonssh-xxh` before tests")
+        print("Don't forget `pip uninstall xxh-xxh` before tests")
         print('First time of executing tests takes time because of downloading files. Take a gulp of water or a few :)')
 
     mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
