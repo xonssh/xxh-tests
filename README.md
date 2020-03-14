@@ -4,13 +4,13 @@ with or without [AppImage FUSE](https://github.com/AppImage/AppImageKit/wiki/FUS
 
 Docker containers in the network:
 
-| Hostname  | Auth             | FUSE | rsync |
-|-----------|------------------|------|-------|
-| start     | `./xde g start`  |      |       |
-| ubuntu_k  | key              |      |       |
-| ubuntu_kf | key              | yes  |  yes  |
-| centos_k  | key              |      |       |
-| arch_p    | password         |      |       |
+| Hostname  | Auth             | FUSE | rsync | users                        |
+|-----------|------------------|------|-------|------------------------------|
+| start     | `./xde g start`  |      |       | root, user-[xonsh/zsh/fish]  |
+| ubuntu_k  | key              |      |       | root                         |
+| ubuntu_kf | key              | yes  |  yes  | root                         |
+| centos_k  | key              |      |       | root                         |
+| arch_p    | password         |      |       | root, docker                 |
 
 Every container has `/xxh` it is the volume. For example if you'll add a file to `tests/new.xsh` 
 it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
