@@ -7,11 +7,11 @@ su user-fish
 su user-zsh
 su user-xonsh
 sshpass -p docker ssh docker@arch_p
-./xxh docker@arch_p +P docker
+xxh docker@arch_p +P docker
 ssh -i id_rsa root@ubuntu_k
-./xxh -i id_rsa root@ubuntu_k
+xxh -i id_rsa root@ubuntu_k
 ssh -i id_rsa root@ubuntu_kf
-./xxh -i id_rsa root@ubuntu_kf
+xxh -i id_rsa root@ubuntu_kf
 EOL
 
 for user_dir in /home/*; do
@@ -30,6 +30,7 @@ for user_dir in /home/*; do
     git clone --depth 1 https://github.com/ohmyzsh/ohmyzsh.git .oh-my-zsh
     cp .oh-my-zsh/templates/zshrc.zsh-template .zshrc
     sed -i -e 's/robbyrussell/bira/g' .zshrc
+    sed -i -e 's/(git/(git docker ubuntu/g' .zshrc
 
     echo 'export PATH=/xxh/xxh:$PATH' >> .zshrc
 
