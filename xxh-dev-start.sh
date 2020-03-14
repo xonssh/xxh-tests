@@ -8,10 +8,10 @@ su user-zsh
 su user-xonsh
 sshpass -p docker ssh docker@arch_p
 xxh docker@arch_p +P docker
-ssh -i id_rsa root@ubuntu_k
-xxh -i id_rsa root@ubuntu_k
-ssh -i id_rsa root@ubuntu_kf
-xxh -i id_rsa root@ubuntu_kf
+ssh -i ~/id_rsa root@ubuntu_k
+xxh -i ~/id_rsa root@ubuntu_k
+ssh -i ~/id_rsa root@ubuntu_kf
+xxh -i ~/id_rsa root@ubuntu_kf
 EOL
 
 for user_dir in /home/*; do
