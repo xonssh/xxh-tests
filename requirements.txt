@@ -4,4 +4,5 @@ yaml
 setuptools
 wheel
 twine
+xxh-xxh
 xonsh
