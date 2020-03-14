@@ -25,7 +25,7 @@ it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
 the initialization takes time.
 6. Open `xxh` dir in your IDE to make changes and commit many repos.
 7. Now you can go to `start` host and try your first connect using xxh:
-```
+```shell script
 ./xde goto start
 
 # Press UP key to get connection strings to other hosts from bash history.
@@ -42,6 +42,7 @@ user-zsh@start> source xxh.zsh -i ~/id_rsa root@ubuntu_k
 root@ubuntu_k% echo $ZSH_THEME
 bira
 ```
+
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. Run tests `./xde t` (don't forget about `./xde t --help`) 
 8. After end of work you can `./xde stop` or `./xde remove` the containers. 
@@ -51,7 +52,7 @@ This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `doc
 
 ## xxh development environment tool
 
-```
+```shell script
 $ ./xde -h
 usage: xde <command>
 
