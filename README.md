@@ -30,12 +30,17 @@ the initialization takes time.
 
 # Press UP key to get connection strings to other hosts from bash history.
 # Here xxh will be from /xxh/xxh/ that is your local  directory
-root> xxh -i ~/id_rsa root@ubuntu_k
+root@start> xxh -i ~/id_rsa root@ubuntu_k
 
 # Try from another shell
 su user-zsh
-zsh> xxhp i xxh-plugin-zsh-ohmyzsh
-zsh> xxh -i ~/id_rsa root@ubuntu_k
+user-zsh@start> xxhp i xxh-plugin-zsh-ohmyzsh
+user-zsh@start> xxh -i ~/id_rsa root@ubuntu_k
+root@ubuntu_k% echo $ZSH_THEME && exit
+agnoster
+user-zsh@start> source xxh.zsh -i ~/id_rsa root@ubuntu_k
+root@ubuntu_k% echo $ZSH_THEME
+bira
 ```
 7. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
 8. Run tests `./xde t` (don't forget about `./xde t --help`) 
