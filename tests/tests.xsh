@@ -144,7 +144,7 @@ if __name__ == '__main__':
                     else:
                         print(f'Repo {repo}: build')
                         rm -rf @(build_dir)
-                        @(build_file) 1> /dev/null 2> /dev/null
+                        @(build_file) # 1> /dev/null 2> /dev/null
                 else:
                     print(f"Build file is not exists: {build_file}")
                     sys.exit(1)
