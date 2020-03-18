@@ -125,7 +125,7 @@ if __name__ == '__main__':
         for rtype, repos  in install_repos.items():
             for repo in repos:
                 repo_dir = fp'/root/.xxh/xxh/{rtype}/{repo}'
-                build_file = repo_dir/ 'build.xsh'
+                build_file = repo_dir/ 'build.sh'
                 build_dir = repo_dir / 'build'
                 if not pf'/xxh/{repo}'.exists():
                     print(f'Repo {repo}: git clone to /xxh/{repo}')
