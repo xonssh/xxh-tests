@@ -34,7 +34,7 @@ root@start> xxh -i ~/id_rsa root@ubuntu_k
 
 # Try from another shell
 root@start> su user-zsh
-user-zsh@start> xxhp i xxh-plugin-zsh-ohmyzsh
+user-zsh@start> xxh +I xxh-plugin-zsh-ohmyzsh
 user-zsh@start> xxh -i ~/id_rsa root@ubuntu_k
 root@ubuntu_k% echo $ZSH_THEME && exit
 agnoster
