@@ -6,7 +6,7 @@ Docker containers in the network:
 
 | Hostname  | Auth             | FUSE | rsync | users                           |
 |-----------|------------------|------|-------|---------------------------------|
-| start     | `./xde g start`  |      |       | `root`, `user-[xonsh/zsh/fish]` |
+| start     | `./xde g start`  |      |       | `root`, `u[xonsh/zsh/fish]` |
 | ubuntu_k  | key              |      |       | `root`                          |
 | ubuntu_kf | key              | yes  |  yes  | `root`                          |
 | centos_k  | key              |      |       | `root`                          |
