@@ -121,37 +121,31 @@ if __name__ == '__main__':
     if opt.shell:
         xxh_shell_repos = {opt.shell: xxh_shell_repos[opt.shell]}
 
+    xxh = '/xxh/xxh/xxh'
+
+    if not opt.skip_repos_update:
+        print('Remove /root/.xxh/xxh/shells /root/.xxh/xxh/plugins')
+        rm -rf /root/.xxh/xxh/shells /root/.xxh/xxh/plugins
+
     for xxh_shell, install_repos in xxh_shell_repos.items():
         for rtype, repos  in install_repos.items():
             for repo in repos:
-                repo_dir = fp'/root/.xxh/xxh/{rtype}/{repo}'
-                build_file = repo_dir/ 'build.sh'
-                build_dir = repo_dir / 'build'
-                if not pf'/xxh/{repo}'.exists():
-                    print(f'Repo {repo}: git clone to /xxh/{repo}')
-                    git clone @(git_verbose_arg) --depth 1 https://github.com/xxh/@(repo) /xxh/@(repo)
+                repo_dir = pf'/root/.xxh/xxh/{rtype}/{repo}'
+                repo_local_path = pf'/xxh/{repo}'
 
-                if repo_dir.exists() and opt.skip_repos_update:
-                    print(f'Repo {repo}: skip replacing from /xxh/{repo}')
-                else:
-                    print(f'Repo {repo}: replaced from /xxh/{repo}. Do not forget to pull from master!')
-                    rm -rf /root/.xxh/xxh/@(rtype)/@(repo)
-                    cp -r /xxh/@(repo) /root/.xxh/xxh/@(rtype)/
-
-                if build_file.exists():
-                    if build_dir.exists() and opt.skip_repos_update:
-                        print(f'Repo {repo}: skip building')
+                if repo_dir.exists():
+                    if repo_local_path.exists():
+                        print(f'Repo {repo}: skip installing from ../{repo}')
                     else:
-                        print(f'Repo {repo}: build')
-                        rm -rf @(build_dir)
-                        @(build_file) # 1> /dev/null 2> /dev/null
+                        print(f'Repo {repo}: skip installing from source')
                 else:
-                    print(f"Build file is not exists: {build_file}")
-                    sys.exit(1)
+                    if repo_local_path.exists():
+                        print(f'Repo {repo}: replaced from /xxh/{repo}. Do not forget to pull from master!')
+                        repo = f'{repo}+path+{repo_local_path}'
+                    @(xxh) +I @(repo)
 
     xxh_args = []
 
-    xxh = '/xxh/xxh/xxh'
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
 
     for shell in xxh_shell_repos.keys():
