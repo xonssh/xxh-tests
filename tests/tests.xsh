@@ -117,6 +117,10 @@ if __name__ == '__main__':
         'shells': ['xxh-shell-bash-zero'],
         'plugins': []
     }
+    xxh_shell_repos['xxh-shell-fish'] = {
+        'shells': ['xxh-shell-fish'],
+        'plugins': []
+    }
 
     if opt.shell:
         xxh_shell_repos = {opt.shell: xxh_shell_repos[opt.shell]}
@@ -241,16 +245,22 @@ if __name__ == '__main__':
             elif shell == 'xxh-shell-bash-zero':
                 shell_arg = ['+s', shell]
                 check(
-                    'Test zsh env',
+                    'Test bash env',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_env.sh +e TESTENV="test env" @(xxh_args) @(shell_arg) ),
                     "test bash xxh .xxh and env=test env"
                 )
 
                 check(
-                    'Test zsh command',
+                    'Test bash command',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"bash\\" command\'"') @(xxh_args) @(shell_arg) ),
                     'test "bash" command'
                 )
-
+            elif shell == 'xxh-shell-fish':
+                shell_arg = ['+s', shell]
+                check(
+                    'Test fish command',
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo test"') @(xxh_args) @(shell_arg) ),
+                    "test"
+                )
 
     print('\nDONE')
