@@ -2,10 +2,6 @@
 
 import sys, os, argparse, re
 
-sys.path.append( str(fp'{__file__}'.parent.parent.parent) )
-from xxh.xxh_xxh.settings import global_settings
-
-xxh_version=global_settings['XXH_VERSION']
 verbose = False
 vverbose = False
 not_interactive = False
@@ -177,8 +173,8 @@ if __name__ == '__main__':
             if shell == 'xxh-shell-xonsh-appimage':
                 check(
                     'Test install xxh',
-                    $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf @(f"{host_home}/.xxh/xxh/package/settings.py") @(xxh_args) ),
-                    "{{'XXH_VERSION': '{xxh_version}', 'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(xxh_version=xxh_version, host_home=host_home)
+                    $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf /xxh/xxh-dev/tests/xonsh/test_env.py @(xxh_args) ),
+                    "{{'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(host_home=host_home)
                 )
 
                 check(
