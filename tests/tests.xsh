@@ -92,11 +92,11 @@ if __name__ == '__main__':
         print('Remove start:/root/.xxh')
         rm -rf /root/.xxh
 
-    if not p'/root/.xxh/xxh/shells'.exists():
+    if not p'/root/.xxh/.xxh/shells'.exists():
         print("Don't forget `pip uninstall xxh-xxh` before tests")
         print('First time of executing tests takes time because of downloading files. Take a gulp of water or a few :)')
 
-    mkdir -p /root/.xxh/xxh/plugins /root/.xxh/xxh/shells
+    mkdir -p /root/.xxh/.xxh/plugins /root/.xxh/.xxh/shells
 
     print('Prepare repos (to avoid full update use --skip-repos-update)')
 
@@ -124,13 +124,13 @@ if __name__ == '__main__':
     xxh = '/xxh/xxh/xxh'
 
     if not opt.skip_repos_update:
-        print('Remove /root/.xxh/xxh/shells /root/.xxh/xxh/plugins')
-        rm -rf /root/.xxh/xxh/shells /root/.xxh/xxh/plugins
+        print('Remove /root/.xxh/.xxh/shells /root/.xxh/.xxh/plugins')
+        rm -rf /root/.xxh/.xxh/shells /root/.xxh/.xxh/plugins
 
     for xxh_shell, install_repos in xxh_shell_repos.items():
         for rtype, repos  in install_repos.items():
             for repo in repos:
-                repo_dir = pf'/root/.xxh/xxh/{rtype}/{repo}'
+                repo_dir = pf'/root/.xxh/.xxh/{rtype}/{repo}'
                 repo_local_path = pf'/xxh/{repo}'
 
                 if repo_dir.exists():
@@ -174,12 +174,12 @@ if __name__ == '__main__':
                 check(
                     'Test install xxh',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf /xxh/xxh-dev/tests/xonsh/test_env.py @(xxh_args) ),
-                    "{{'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/pip', 'PYTHONPATH': '{host_home}/.xxh/pip'}}".format(host_home=host_home)
+                    "{{'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/.pip', 'PYTHONPATH': '{host_home}/.xxh/.pip'}}".format(host_home=host_home)
                 )
 
                 check(
                     'Test AppImage extraction on the host',
-                    $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+                    $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/.xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
                     'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
                 )
 
