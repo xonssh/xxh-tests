@@ -34,7 +34,7 @@ def check(name, cmd, expected_result):
                 else:
                     print('ERROR!')
                     if not not_interactive:
-                        cmdv = cmd.replace('xxh ', 'xxh +v ')
+                        cmdv = cmd + ' +v'
                         yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
                         if yn.lower().strip() in ['y','']:
                             bash -c @(cmdv)
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     }
     xxh_shell_repos['xxh-shell-bash-zero'] = {
         'shells': ['xxh-shell-bash-zero'],
-        'plugins': []
+        'plugins': ['xxh-plugin-bash-ohmybash']
     }
     xxh_shell_repos['xxh-shell-fish'] = {
         'shells': ['xxh-shell-fish'],
@@ -251,6 +251,14 @@ if __name__ == '__main__':
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"bash\\" command\'"') @(xxh_args) @(shell_arg) ),
                     'test "bash" command'
                 )
+
+                $OSH_THEME="morris"
+                check(
+                    'Test bash seamless',
+                    $(echo source @(xxh)_xxh/xxh.bash @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_seamless.sh @(xxh_args) @(shell_arg) ),
+                    "morris"
+                )
+
             elif shell == 'xxh-shell-fish':
                 shell_arg = ['+s', shell]
                 check(
