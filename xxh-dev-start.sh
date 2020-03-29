@@ -24,6 +24,14 @@ for user_dir in /home/*; do
 
   if [[ $username == *"root"* ]]; then
     echo 'export PATH=/xxh/xxh:$PATH' >> .bashrc
+  elif [[ $username == *"bash"* ]]; then
+    # https://github.com/ohmybash/oh-my-bash#manual-installation
+    git clone --depth 1 https://github.com/ohmybash/oh-my-bash .oh-my-bash
+    cp .bashrc .bashrc.orig
+    cp .oh-my-bash/templates/bashrc.osh-template .bashrc
+    sed -i -e 's/font/powerline/g' .bashrc
+    echo 'export PATH=/xxh/xxh:$PATH' >> .bashrc
+
   elif [[ $username == *"xonsh"* ]]; then
     echo '$PATH=["/xxh/xxh"]+$PATH' >> .xonshrc
   elif [[ $username == *"zsh"* ]]; then
