@@ -3,6 +3,7 @@
 ln -s /root /home/root
 
 cat >/home/root/.bash_history <<EOL
+su ubash
 su ufish
 su uzsh
 su uxonsh

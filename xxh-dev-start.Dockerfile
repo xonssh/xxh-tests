@@ -11,9 +11,10 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-RUN useradd -m  -s $(which xonsh) uxonsh
-RUN useradd -m  -s $(which zsh)   uzsh
-RUN useradd -m  -s $(which fish)  ufish
+RUN useradd -m -s $(which bash)  ubash
+RUN useradd -m -s $(which xonsh) uxonsh
+RUN useradd -m -s $(which zsh)   uzsh
+RUN useradd -m -s $(which fish)  ufish
 
 ADD xxh-dev-start*.sh /
 RUN /xxh-dev-start.sh
