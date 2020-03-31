@@ -33,12 +33,12 @@ the initialization takes time.
 root@start> xxh -i ~/id_rsa root@ubuntu_k
 
 # Try from another shell
-root@start> su user-zsh
-user-zsh@start> xxh +I xxh-plugin-zsh-ohmyzsh
-user-zsh@start> xxh -i ~/id_rsa root@ubuntu_k
+root@start> su uzsh
+uzsh@start> xxh +I xxh-plugin-zsh-ohmyzsh
+uzsh@start> xxh -i ~/id_rsa root@ubuntu_k
 root@ubuntu_k% echo $ZSH_THEME && exit
 agnoster
-user-zsh@start> source xxh.zsh -i ~/id_rsa root@ubuntu_k
+uzsh@start> source xxh.zsh -i ~/id_rsa root@ubuntu_k
 root@ubuntu_k% echo $ZSH_THEME
 bira
 ```
