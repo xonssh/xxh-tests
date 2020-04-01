@@ -133,6 +133,11 @@ class XxhDevEnv(object):
             print('Remove build dirs')
             rm -rf ./build ./dist ./xxh_xxh.egg-info
 
+    def portable(self):
+        if p'../xxh-portable'.exists():
+            cd ../xxh-portable
+            docker image rm xxh/xxh-portable-musl-alpine
+            ./build-xxh-portable-musl-alpine.sh
 
 if __name__ == '__main__':
     XxhDevEnv()
