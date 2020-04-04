@@ -51,7 +51,7 @@ root@ubuntu_k% echo $ZSH_THEME
 bira
 ```
 
-4. Change the code in IDE and run `./xxh` on `start` container. It's so easy!
+4. Change the code in IDE and run `xxh` on `start` container. It's so easy!
 5. Run tests `./xde t` (don't forget about `./xde t --help` and fast mode `./xde t -sr`) 
 6. After end of work you can `./xde stop` or `./xde remove` the containers. 
 7. You rock! Try to find easter egg in the code and tell us about your work [on Gitter](https://gitter.im/xonssh-xxh/community)
