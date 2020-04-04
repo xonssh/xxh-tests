@@ -1,5 +1,5 @@
 #!/usr/bin/env xonsh
-import os, sys, argparse, yaml
+import os, sys, argparse, yaml, requests
 
 class XxhDevEnv(object):
     def __init__(self):
@@ -8,6 +8,7 @@ class XxhDevEnv(object):
         parser = argparse.ArgumentParser(
             usage='xde <command>\n\n'
                 + 'xxh development environment commands:\n\n'
+                + '   clone       Git clone repos from https://github.com/xxh\n'
                 + '   build       Build the docker containers and git clone the xxh repos if needed\n'
                 + '   up          Docker-compose up the containers\n'
                 + '   test    t   Run tests\n'
@@ -25,6 +26,32 @@ class XxhDevEnv(object):
             sys.exit(1)
 
         getattr(self, args.command)()
+
+    def clone(self):
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('-n','--name', help=f"Clone repo by name. Example: xxh")
+        parser.add_argument('-p','--prefix', help=f"Clone repo by prefix. Example: xxh-shell")
+        parser.add_argument('-s','--substr', help=f"Clone repo by substring. Example: fish")
+        parser.usage = parser.format_usage().replace('usage: xde ', 'xde clone ')
+        args = parser.parse_args(sys.argv[2:])
+
+        data = requests.get('https://api.github.com/orgs/xxh/repos')
+        for r in data.json():
+            repo_name = r['name']
+
+            if args.name and not repo_name == args.name:
+                continue
+            if args.prefix and not repo_name.startswith(args.prefix):
+                continue
+            if args.substr and not (args.substr in repo_name):
+                continue
+
+            repo_path = p'..' / repo_name
+            if not repo_path.exists():
+                print(f"Git clone {repo_name} to {repo_path}")
+                git clone -q @(r['git_url']) @(repo_path)
+            else:
+                print(f"Already exists: {repo_path}")
 
     def build(self):
         base_path = pf"{os.path.realpath(__file__)}"
