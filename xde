@@ -116,7 +116,8 @@ class XxhDevEnv(object):
 
         docker-compose rm -f -s
         if args.full:
-            docker image rm xxh/xxh-dev-start xxh/xxh-dev-ubuntu-k xxh/xxh-dev-ubuntu-kf
+            containers = ['xxh/'+str(c).replace('.Dockerfile','') for c in p'.'.glob('xxh-dev-*.Dockerfile')]
+            docker image rm @(containers)
 
     def t(self):
         return self.test()
