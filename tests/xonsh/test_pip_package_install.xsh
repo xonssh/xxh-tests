@@ -1,3 +1,3 @@
 #!/usr/bin/env xonsh
 
-python -m pip install --quiet --upgrade pandas
+pip install --quiet --upgrade pandas

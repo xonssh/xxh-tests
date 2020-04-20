@@ -28,7 +28,7 @@ def check(name, cmd, expected_result):
             print(f"OUTPUT {repr(cmd_result)}\nEXPECT {repr(expected_result)} ")
 
             if cmd_result != expected_result:
-                if try_count > 0:
+                if try_count > 0 or 'Bad file descriptor' in cmd_result:
                     print('RETRY')
                     continue
                 else:
@@ -174,7 +174,7 @@ if __name__ == '__main__':
                 check(
                     'Test install xxh',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf /xxh/xxh-dev/tests/xonsh/test_env.py @(xxh_args) ),
-                    "{{'XXH_HOME': '{host_home}/.xxh', 'PIP_TARGET': '{host_home}/.xxh/.pip', 'PYTHONPATH': '{host_home}/.xxh/.pip'}}".format(host_home=host_home)
+                    "{{'XXH_HOME': '{host_home}/.xxh', 'PYTHONPATH': '{host_home}/.xxh/.local/lib/python3.8/site-packages'}}".format(host_home=host_home)
                 )
 
                 check(
@@ -252,12 +252,12 @@ if __name__ == '__main__':
                     'test "bash" command'
                 )
 
-                $OSH_THEME="morris"
-                check(
-                    'Test bash seamless',
-                    $(echo source @(xxh)_xxh/xxh.bash @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_seamless.sh @(xxh_args) @(shell_arg) ),
-                    "morris"
-                )
+                # $OSH_THEME="morris"
+                # check(
+                #     'Test bash seamless',
+                #     $(echo source @(xxh)_xxh/xxh.bash @(h['xxh_auth']) @(server) +if +hf /xxh/xxh-dev/tests/bash/test_seamless.sh @(xxh_args) @(shell_arg) ),
+                #     "morris"
+                # )
 
             elif shell == 'xxh-shell-fish':
                 shell_arg = ['+s', shell]
