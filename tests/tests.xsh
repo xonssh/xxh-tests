@@ -177,11 +177,11 @@ if __name__ == '__main__':
                     "{{'XXH_HOME': '{host_home}/.xxh', 'PYTHONPATH': '{host_home}/.xxh/.local/lib/python3.8/site-packages'}}".format(host_home=host_home)
                 )
 
-                check(
-                    'Test AppImage extraction on the host',
-                    $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/.xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
-                    'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
-                )
+                # check(
+                #     'Test AppImage extraction on the host',
+                #     $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/.xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+                #     'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
+                # )
 
                 check(
                     'Test python',
