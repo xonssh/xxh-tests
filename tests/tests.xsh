@@ -109,8 +109,8 @@ if __name__ == '__main__':
         'shells': ['xxh-shell-zsh'],
         'plugins': ['xxh-plugin-zsh-ohmyzsh']
     }
-    xxh_shell_repos['xxh-shell-bash-zero'] = {
-        'shells': ['xxh-shell-bash-zero'],
+    xxh_shell_repos['xxh-shell-bash'] = {
+        'shells': ['xxh-shell-bash'],
         'plugins': ['xxh-plugin-bash-ohmybash']
     }
     xxh_shell_repos['xxh-shell-fish'] = {
@@ -238,7 +238,7 @@ if __name__ == '__main__':
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +if +hc @('"echo \'test \\"zsh\\" command\'"') @(xxh_args) @(shell_arg) ),
                     'test "zsh" command'
                 )
-            elif shell == 'xxh-shell-bash-zero':
+            elif shell == 'xxh-shell-bash':
                 shell_arg = ['+s', shell]
                 check(
                     'Test bash env',
