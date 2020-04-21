@@ -101,8 +101,8 @@ if __name__ == '__main__':
     print('Prepare repos (to avoid full update use --skip-repos-update)')
 
     xxh_shell_repos = {}
-    xxh_shell_repos['xxh-shell-xonsh-appimage'] = {
-        'shells': ['xxh-shell-xonsh-appimage', 'xxh-shell-zsh'],
+    xxh_shell_repos['xxh-shell-xonsh'] = {
+        'shells': ['xxh-shell-xonsh', 'xxh-shell-zsh'],
         'plugins': ['xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar', 'xxh-plugin-xonsh-autojump']
     }
     xxh_shell_repos['xxh-shell-zsh'] = {
@@ -170,7 +170,7 @@ if __name__ == '__main__':
                 'Test!'
             )
 
-            if shell == 'xxh-shell-xonsh-appimage':
+            if shell == 'xxh-shell-xonsh':
                 check(
                     'Test install xxh',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) +iff +s @(shell) +hf /xxh/xxh-dev/tests/xonsh/test_env.py @(xxh_args) ),
@@ -179,7 +179,7 @@ if __name__ == '__main__':
 
                 # check(
                 #     'Test AppImage extraction on the host',
-                #     $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/.xxh/shells/xxh-shell-xonsh-appimage/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
+                #     $(echo @(h['sshpass']) ssh @(h['ssh_auth']) @(ssh_opts) @(server) @(f"[ -d {host_home}/.xxh/.xxh/shells/xxh-shell-xonsh/build/xonsh-squashfs ] && echo 'extracted' ||echo 'not_extracted'") ),
                 #     'not_extracted' if 'f' in host.split('_')[-1] else 'extracted'
                 # )
 
