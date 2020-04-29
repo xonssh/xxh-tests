@@ -63,8 +63,7 @@ class XxhDevEnv(object):
                   "STOP")
             sys.exit(1)
 
-        clone_repos = ['xxh', 'xxh-shell-xonsh', 'xxh-plugin-xonsh-pipe-liner', 'xxh-plugin-xonsh-theme-bar',
-                       'xxh-plugin-xonsh-autojump']
+        clone_repos = ['xxh']
 
         repo_base_path = 'https://github.com/xxh'
 
