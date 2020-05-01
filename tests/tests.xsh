@@ -1,10 +1,15 @@
 #!/usr/bin/env xonsh
 
-import sys, os, argparse, re
+import sys, os, argparse, re, subprocess
 
 verbose = False
 vverbose = False
 not_interactive = False
+
+def SC(cmd):
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    [out, err] = proc.communicate()
+    return (out, err, proc)
 
 def cmd_str(c):
     return c
@@ -19,7 +24,11 @@ def check(name, cmd, expected_result):
         if vverbose:
             print(f'\nRUN: {cmd}', end=' ...')
 
-        cmd_result = $(bash -c @(cmd)).strip()
+        if 'xxh local' in cmd:
+            o, e, p = SC(cmd)
+            cmd_result = o.decode().strip()
+        else:
+            cmd_result = $(bash -c @(cmd)).strip()
         cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
         cmd_result = re.sub(r'\x1b\[\d+m','', cmd_result)
         cmd_result = re.sub(r'\x1b\[\d+;\d+;\d+m','', cmd_result)
@@ -168,7 +177,6 @@ if __name__ == '__main__':
             $(echo @(xxh) local +iff +hh /root/.xxh_test +lh /root/.xxh_test +I xxh-plugin-xonsh-theme-bar +I xxh-plugin-xonsh-pipe-liner +I xxh-plugin-xonsh-autojump +hf /xxh/xxh-dev/tests/xonsh/test_plugins.xsh ),
             "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
         )
-
 
     for shell in xxh_shell_repos.keys():
         for host, h in hosts.items():
