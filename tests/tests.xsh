@@ -15,10 +15,17 @@ def check(name, cmd, expected_result):
         try_count -= 1
         print('TEST: '+name, end='...')
         cmd = cmd.strip()
+
+        if vverbose:
+            print(f'\nRUN: {cmd}', end=' ...')
+
         cmd_result = $(bash -c @(cmd)).strip()
         cmd_result = re.sub('\x1b]0;.*\x07','', cmd_result)
         cmd_result = re.sub(r'\x1b\[\d+m','', cmd_result)
         cmd_result = re.sub(r'\x1b\[\d+;\d+;\d+m','', cmd_result)
+
+        # https://github.com/xonsh/xonsh/issues/3555 and https://github.com/xonsh/xonsh/issues/3557
+        cmd_result = re.sub(r'bash: cannot set terminal process group \(.*?\): Inappropriate ioctl for device\nbash: no job control in this shell\n', '', cmd_result)
 
         expected_result = expected_result.strip()
         if cmd_result != expected_result or vverbose:
