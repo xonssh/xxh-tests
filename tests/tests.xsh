@@ -152,15 +152,15 @@ if __name__ == '__main__':
 
     ssh_opts = ["-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=QUIET"]
 
-
-    print('[Local test xonsh xxh plugins]')
-    print(f'Remove /root/.xxh_test')
-    rm -rf /root/.xxh_test
-    check(
-        'Local test xonsh xxh plugins',
-        $(echo @(xxh) local +iff +hh /root/.xxh_test +lh /root/.xxh_test +I xxh-plugin-xonsh-theme-bar +I xxh-plugin-xonsh-pipe-liner +I xxh-plugin-xonsh-autojump +hf /xxh/xxh-dev/tests/xonsh/test_plugins.xsh ),
-        "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
-    )
+    if 'xxh-shell-xonsh' in xxh_shell_repos:
+        print('[Local test xonsh xxh plugins]')
+        print(f'Remove /root/.xxh_test')
+        rm -rf /root/.xxh_test
+        check(
+            'Local test xonsh xxh plugins',
+            $(echo @(xxh) local +iff +hh /root/.xxh_test +lh /root/.xxh_test +I xxh-plugin-xonsh-theme-bar +I xxh-plugin-xonsh-pipe-liner +I xxh-plugin-xonsh-autojump +hf /xxh/xxh-dev/tests/xonsh/test_plugins.xsh ),
+            "1234\n5678\n\n{bar}\n{WHITE}{prompt_end}{NO_COLOR}"
+        )
 
 
     for shell in xxh_shell_repos.keys():
