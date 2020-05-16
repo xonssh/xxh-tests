@@ -49,7 +49,7 @@ class XxhDevEnv(object):
             repo_path = p'..' / repo_name
             if not repo_path.exists():
                 print(f"Git clone {repo_name} to {repo_path}")
-                git clone -q @(r['git_url']) @(repo_path)
+                git clone -q @(r['clone_url']) @(repo_path)
             else:
                 print(f"Already exists: {repo_path}")
 
