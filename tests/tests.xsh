@@ -209,7 +209,7 @@ if __name__ == '__main__':
                 check(
                     'Test install xxh',
                     $(echo @(xxh) @(h['xxh_auth']) @(server) @(xxh_args) +iff +s @(shell) +hf /xxh/xxh-dev/tests/xonsh/test_env.py ),
-                    "{{'XXH_HOME': '{host_home}/.xxh', 'PYTHONPATH': '{host_home}/.xxh/.local/lib/python3.8/site-packages'}}".format(host_home=host_home)
+                    "{{'XXH_HOME': '{host_home}/.xxh/.xxh/shells/xxh-shell-xonsh/build/../../../..', 'PYTHONPATH': '{host_home}/.xxh/.xxh/shells/xxh-shell-xonsh/build/../../../../.local/lib/python3.8/site-packages'}}".format(host_home=host_home)
                 )
 
                 # check(
