@@ -1,3 +1,3 @@
 #!/usr/bin/env xonsh
 
-pip install --quiet --upgrade pandas
+pip install @('--verbose' if $XXH_VERBOSE == 2 else '--quiet') --upgrade pandas
