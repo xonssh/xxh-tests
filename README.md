@@ -17,9 +17,14 @@ it appears on all hosts immediately in `/xxh/xxh-dev/tests/new.xsh`.
 
 ## Workflow
 
-This workflow was originally developed on `ubuntu 19.10`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.14`, `pycharm 2019.3.3`.
+This workflow was originally developed on `ubuntu 20.04`, `docker 19.03.5`, `docker-compose 1.25.3`, `xonsh 0.9.14`, `pycharm 2019.3.3`.
 
-0. Install: `docker`, `docker-compose`, `git`, `xonsh`
+0. Install packages: 
+```bash
+apt install -y docker git  # Or install docker from official repo - https://docs.docker.com/engine/install/ubuntu/
+pip docker-compose xonsh
+```
+
 1. Create directory for xxh development:
 ```bash
 mkdir ~/xxh && cd ~/xxh
