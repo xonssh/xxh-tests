@@ -22,7 +22,7 @@ This workflow was originally developed on `ubuntu 20.04`, `docker 19.03.5`, `doc
 0. Install packages: 
 ```bash
 apt install -y docker git  # Or install docker from official repo - https://docs.docker.com/engine/install/ubuntu/
-pip docker-compose xonsh
+pip install -U docker-compose xonsh
 ```
 
 1. Create directory for xxh development:
