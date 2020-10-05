@@ -6,3 +6,4 @@ wheel
 twine
 xxh-xxh
 xonsh
+argcomplete

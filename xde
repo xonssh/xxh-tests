@@ -1,5 +1,7 @@
 #!/usr/bin/env xonsh
-import os, sys, argparse, yaml, requests
+# PYTHON_ARGCOMPLETE_OK
+import os, sys, argparse, yaml, requests, argcomplete
+from argcomplete.completers import ChoicesCompleter
 
 class XxhDevEnv(object):
     def __init__(self):
@@ -17,8 +19,8 @@ class XxhDevEnv(object):
                 + '   stop        Docker-compose stop the containers\n'
                 + '   remove      Docker-compose remove the containers\n\n'
                 + 'Try `./xde <command> --help` to get more info.\n')
-        parser.add_argument('command', help='Command to run')
-
+        parser.add_argument('command', help='Command to run').completer=ChoicesCompleter(('clone', 'build', 'up', 'test', 'goto', 'start', 'stop', 'remove'))
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[1:2])
         if not hasattr(self, args.command):
             print('Unrecognized command\n')
@@ -33,6 +35,7 @@ class XxhDevEnv(object):
         parser.add_argument('-p','--prefix', help=f"Clone repo by prefix. Example: xxh-shell")
         parser.add_argument('-s','--substr', help=f"Clone repo by substring. Example: fish")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde clone ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         data = requests.get('https://api.github.com/orgs/xxh/repos')
@@ -71,6 +74,7 @@ class XxhDevEnv(object):
         parser.add_argument('-v', '--verbose', action='store_true', help=f"Verbose mode")
         parser.add_argument('-rb', '--repo-base', default=repo_base_path, help=f"Repos base path. Default: {repo_base_path}")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         repo_base_path = args.repo_base
@@ -89,6 +93,7 @@ class XxhDevEnv(object):
     def up(self):
         parser = argparse.ArgumentParser(description='')
         parser.usage = parser.format_usage().replace('xde ', 'xde up ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         docker-compose up -d
@@ -96,6 +101,7 @@ class XxhDevEnv(object):
     def start(self):
         parser = argparse.ArgumentParser(description='')
         parser.usage = parser.format_usage().replace('xde ', 'xde start ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         docker-compose start
@@ -103,6 +109,7 @@ class XxhDevEnv(object):
     def stop(self):
         parser = argparse.ArgumentParser(description='')
         parser.usage = parser.format_usage().replace('xde ', 'xde stop ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         docker-compose stop
@@ -111,6 +118,7 @@ class XxhDevEnv(object):
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('-f', '--full', action='store_true', help=f"Full remove: containers, images")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde remove ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         docker-compose rm -f -s
@@ -131,6 +139,7 @@ class XxhDevEnv(object):
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('container', help=f"Container name: {', '.join(self.containers)}")
         parser.usage = parser.format_usage().replace('usage: xde ', 'xde goto ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         match_containers = [c for c in self.containers if args.container in c]
@@ -152,6 +161,7 @@ class XxhDevEnv(object):
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('-r', '--remove', action='store_true', help=f"Remove build dirs after release")
         parser.usage = parser.format_usage().replace('xde ', 'xde release ')
+        argcomplete.autocomplete(parser)
         args = parser.parse_args(sys.argv[2:])
 
         cd ../xxh && python3 setup.py sdist bdist_wheel && twine upload dist/*
