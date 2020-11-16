@@ -43,17 +43,23 @@ cd xxh-dev
 
 # Press UP key to get connection strings to other hosts from bash history.
 # Here xxh will be from /xxh/xxh/ that is your local  directory
-root@start> xxh -i ~/id_rsa root@ubuntu_k
+#root@start> 
+xxh -i ~/id_rsa root@ubuntu_k
 
-# Try from another shell
-root@start> su uzsh
-uzsh@start> xxh +I xxh-plugin-zsh-ohmyzsh
-uzsh@start> xxh -i ~/id_rsa root@ubuntu_k
-root@ubuntu_k% echo $ZSH_THEME && exit
-agnoster
-uzsh@start> source xxh.zsh -i ~/id_rsa root@ubuntu_k
-root@ubuntu_k% echo $ZSH_THEME
-bira
+#root@start> #Try from another shell:
+su uzsh
+#uzsh@start> 
+xxh +I xxh-plugin-zsh-ohmyzsh
+#uzsh@start> 
+xxh -i ~/id_rsa root@ubuntu_k
+#root@ubuntu_k% 
+echo $ZSH_THEME && exit
+#agnoster
+#uzsh@start> 
+source xxh.zsh -i ~/id_rsa root@ubuntu_k
+#root@ubuntu_k% 
+echo $ZSH_THEME
+#bira
 ```
 
 4. Change the code in IDE and run `xxh` on `start` container. It's so easy!
@@ -64,26 +70,26 @@ bira
 ## xxh development environment tool
 
 ```shell script
-$ ./xde -h
-usage: xde <command>
-
-xxh development environment commands:
-
-   clone       Git clone repos from https://github.com/xxh
-   build       Build the docker containers and get the xxh code if ./xxh is not exists
-   up          Docker-compose up the containers
-   test    t   Run tests
-   goto    g   Open bash by the container name part
-   start       Docker-compose start the containers
-   stop        Docker-compose stop the containers
-   remove      Docker-compose remove the containers
-   
-Try `./xde <command> --help` to get more info.   
-   
-positional arguments:
-  command     Command to run
-
-optional arguments:
-  -h, --help  show this help message and exit
+./xde -h
+#usage: xde <command>
+#
+#xxh development environment commands:
+#
+#   clone       Git clone repos from https://github.com/xxh
+#   build       Build the docker containers and get the xxh code if ./xxh is not exists
+#   up          Docker-compose up the containers
+#   test    t   Run tests
+#   goto    g   Open bash by the container name part
+#   start       Docker-compose start the containers
+#   stop        Docker-compose stop the containers
+#   remove      Docker-compose remove the containers
+#   
+#Try `./xde <command> --help` to get more info.   
+#   
+#positional arguments:
+#  command     Command to run
+#
+#optional arguments:
+#  -h, --help  show this help message and exit
 
 ```
