@@ -7,3 +7,4 @@ twine
 xxh-xxh
 xonsh
 argcomplete
+xontrib-argcomplete
