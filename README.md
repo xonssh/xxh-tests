@@ -30,6 +30,7 @@ pip install -U docker-compose xonsh
 mkdir ~/xxh && cd ~/xxh
 git clone https://github.com/xxh/xxh-dev
 cd xxh-dev
+pip install -r requirements.txt
 ./xde clone -n xxh      # clone xxh repo from https://github.com/xxh/xxh
 ./xde build             # build docker containers
 ./xde up                # run docker containers
