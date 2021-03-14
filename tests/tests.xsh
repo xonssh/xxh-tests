@@ -49,14 +49,17 @@ def check(name, cmd, expected_result):
                     continue
                 else:
                     print('ERROR!')
+                    cmdv = cmd + ' +v'
                     if not not_interactive:
-                        cmdv = cmd + ' +v'
                         yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
                         if yn.lower().strip() in ['y','']:
                             bash -c @(cmdv)
+                            
                     if try_count > 0:
                         continue
                     else:
+                        if not_interactive:
+                            print('To debug `./xde g start` and run: %s' % cmdv)
                         sys.exit(1)
 
         print('OK')
