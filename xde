@@ -131,7 +131,8 @@ class XxhDevEnv(object):
 
     def test(self):
         it = [] if '--not-interactive' in sys.argv or '-ni' in sys.argv else ['-it']
-        docker exec @(it) xxh-dev_start_1 xonsh /xxh/xxh-dev/tests/tests.xsh @(sys.argv[2:])
+        r = ![docker exec @(it) xxh-dev_start_1 xonsh /xxh/xxh-dev/tests/tests.xsh @(sys.argv[2:])]
+        sys.exit(r.rtn)
 
     def g(self):
         return self.goto()
