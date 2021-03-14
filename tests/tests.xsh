@@ -49,7 +49,7 @@ def check(name, cmd, expected_result):
                     continue
                 else:
                     print('ERROR!')
-                    cmdv = cmd + ' +v'
+                    cmdv = cmd + ' +v  # or with +vv'
                     if not not_interactive:
                         yn = input(f'Run verbose? [Y/n]: %s' % cmdv)
                         if yn.lower().strip() in ['y','']:
@@ -58,8 +58,7 @@ def check(name, cmd, expected_result):
                     if try_count > 0:
                         continue
                     else:
-                        if not_interactive:
-                            print('To debug `./xde g start` and run: %s' % cmdv)
+                        print('To debug run `./xde g start` and then: %s' % cmdv)
                         sys.exit(1)
 
         print('OK')
