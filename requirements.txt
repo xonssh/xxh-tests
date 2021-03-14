@@ -1,6 +1,6 @@
 docker-compose
 argparse
-yaml
+pyyaml
 setuptools
 wheel
 twine
