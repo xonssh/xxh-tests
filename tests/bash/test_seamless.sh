@@ -1,1 +1,0 @@
-echo $OSH_THEME
